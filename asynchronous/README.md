@@ -7,8 +7,8 @@ Client <-    Http    -> Nginx
        <- JavaScript -> Flask <- sqlalchemy -> PosgreSQL
 ```
 
-# つまづいたこと
+# 簡単な解説
 
-## Uncaught ReferenceError: exports is not defined
+jQueryを利用して非同期通信を実装しています｡JavaScriptはブラウザにより動作がことなるため､ これを吸収するためにjQueryを使用しています｡
 
-修正中｡
+`client/js/index.js`で非同期通信を実装しています｡jQueryは`$`を使うことでhtmlのDOMにアクセスします｡はじめの`$(document).ready`により､HTMLの内容がすべて表示されるのを待ちます｡その後､`$("#submit")`により､`id="submit"`がつけられている要素がクリックされるのを待ち､クリック後に`event.preventDefault()`関数により､クリックされたときの動作を停止させます｡この処理がなければページが更新されてしまいます｡次に`$form`にフォームに入力された内容を取得し､その`action`と`method`をそのまま非同期通信の`url`と`type`として利用します｡非同期通信は`$.ajax`によって行われ､成功すれば`.done()`､失敗すれば`.fail()`の処理が実行されます｡フォームのデータは`.sanitize()`関数により､データを送信可能な形に変更しています｡非同期通信に成功後はサーバーから`[name]|[text]`の形式でデータが返されるので､`|`でテキストを分割し､`$("div#{ID名})`により､`div要素`かつ特定のIDをもつ要素の中身を`name`と`text`でそれぞれ書き換えています｡

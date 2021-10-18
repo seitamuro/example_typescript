@@ -1,5 +1,3 @@
-console.log("index.js was loaded.");
-
 $(document).ready(function() {
     $("#submit").on("click", function(event){
         event.preventDefault();
