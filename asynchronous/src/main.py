@@ -1,7 +1,7 @@
 from logging import ERROR
 from flask import Flask, request
-from UserModel import User
-from setting import session
+#from UserModel import User
+#from setting import session
 from sqlalchemy import *
 from sqlalchemy.orm import *
 from flask_cors import CORS
@@ -14,7 +14,7 @@ def register_record():
     name = request.form["name"]
     text = request.form["text"]
 
-    return "unimplements"
+    return "{}|{}".format(name, text)
 
 @app.route("/", methods=["GET"])
 def fetch_record():

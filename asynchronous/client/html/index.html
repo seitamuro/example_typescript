@@ -3,9 +3,21 @@
 <html>
 <head>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script type="text/javascript" src="../js/index.js"></script>
 </head>
 <body>
-    <p id="tutorial">asynchronous tutorial</p>
+    <div>
+        <p id="tutorial">asynchronous tutorial</p>
+    </div>
+
+    <div>
+        <div>Name: <div id="name"></p></div>
+        <div>Text: <div id="text"></p></div>
+        <form action="http://127.0.0.1:5000/" method="post">
+            <input type="text" id="name" name="name">
+            <input type="text" id="text" name="text">
+            <input type="submit" id="submit">
+        </form>
+    </div>
+    <script type="text/javascript" src="../js/index.js"></script>
 </body>
 </html>
