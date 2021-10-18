@@ -6,3 +6,9 @@
 Client <-    Http    -> Nginx 
        <- JavaScript -> Flask <- sqlalchemy -> PosgreSQL
 ```
+
+# つまづいたこと
+
+## Uncaught ReferenceError: exports is not defined
+
+修正中｡

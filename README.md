@@ -1,4 +1,4 @@
-# Study TypeScript
+# Web Study
 
 FlaskとTypeScriptを使ってさまざまなものを作っていこうと思っています｡
 
