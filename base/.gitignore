@@ -1,0 +1,9 @@
+!.env
+
+pgadmin/
+
+__pycache__/
+
+venv
+
+node_modules

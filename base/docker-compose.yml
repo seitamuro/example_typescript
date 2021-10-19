@@ -1,0 +1,45 @@
+version: "3"
+
+services:
+
+  postgresql:
+    image: postgres:10.5
+    container_name: asynchronous_postgresql
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgresql/init/:/docker-entrypoint-initdb.d
+      - /Users/${USER}/Volumes/asynchronous_postgresql/postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+    hostname: postgres
+    user: root
+    environment:
+      TZ: "Asia/Tokyo"
+
+  pgadmin4:
+    image: dpage/pgadmin4:3.3
+    container_name: flask_tutorial_pgadmin4
+    ports:
+      - 5050:80
+    volumes:
+      - ./pgadmin:/var/lib/pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    depends_on:
+      - postgresql
+    hostname: pgadmin4
+
+  nginx:
+    build: ./nginx
+    container_name: flask_nginx
+    volumes:
+      - ./client/:/var/www/
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
+    environment:
+      TZ: "Asia/Tokyo"
