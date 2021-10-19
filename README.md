@@ -8,4 +8,5 @@ FlaskとTypeScriptを使ってさまざまなものを作っていこうと思�
 |----|----|
 |asynchronous|非同期通信のサンプルです｡|
 |base|NginxとPostgreSQLの最小構成｡|
+|skeleton-demo|CSSライブラリの1つであるskeltonを使ってみた|
 |webpack-demo|Webpackを使ってみた｡|

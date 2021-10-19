@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+
+  nginx:
+    build: ./nginx
+    container_name: flask_nginx
+    volumes:
+      - ./client/:/var/www/
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
+    environment:
+      TZ: "Asia/Tokyo"
