@@ -4,7 +4,7 @@ services:
 
   nginx:
     build: ./nginx
-    container_name: flask_nginx
+    container_name: nginx
     volumes:
       - ./client/:/var/www/
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf

@@ -4,8 +4,36 @@
 <head>
     <link rel="stylesheet" href="../css/normalize.css">
     <link rel="stylesheet" href="../css/skeleton.css">
+    <link rel="stylesheet" href="../css/mycolor.css">
 </head>
 <body>
-    Empty
+    <!-- row and columns -->
+    <div class="row silver">
+        <p class="four columns red">1</p>
+        <p class="four columns yellow">2</p>
+        <p class="four columns blue">3</p>
+    </div>
+
+    <div class="row silver">
+        <div class="four columns red"><a href="">link</a></div>
+        <div class="four columns yello"><a href="" class="button">button</a></div>
+        <div class="four columns blue"><button class="button-primary">primary button</button></div>
+    </div>
+
+    <div class="container">
+        <div class="row silver">
+            <div class="four columns red">container red</div>
+            <div class="four columns yellow">container yellow</div>
+            <div class="four columns blue">container blue</div>
+        </div>
+    </div>
+
+    <div class="container silver">
+        <label for="first_name">First name</label>
+        <input type="text" placeholder="John" id="first_name">
+
+        <input type="checkbox">
+        <span class="label-body">checkbox</span>
+    </div>
 </body>
 </html>
