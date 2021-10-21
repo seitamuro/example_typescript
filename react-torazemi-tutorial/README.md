@@ -49,3 +49,45 @@ build
 npm start: ローカルサーバーの起動｡ホットリロード対応｡
 npm run build: 本番用ファイルの生成｡srcとpublicのファイルを1つにまとめる｡(バンドル)
 npm run eject: BabelやWebpackの設定を変えたいときに使う｡
+
+# コンポーネント
+
+見た目と機能をもつUI部品｡Class ComponentとFunctional Componentの2つがある｡Functional Componentが主流｡
+これを使うと再利用可能・コードがみやすい・変更に強いという利点が得られる｡1コンポーネント=1ファイル｡ファイル名は大文字｡
+親でimport､子でexport｡子コンポーネントの引数にpropsを使用する｡親から子にデータを渡す｡
+
+```
+// App.js
+import Article from "./component/Article";
+
+function App() {
+    return (
+        <div>
+            <Article
+                title={"新・日本一わかりやすいReact入門"}
+                content={"今日のトピックはpropsについて｡"}
+            >
+        </div>
+    );
+}
+
+export default App;
+```
+
+```
+// components/Article.jsx
+const Article = (props) => {
+    return (
+        <div>
+            <h2>{props.title}</h2>
+            <p>{props.content}</p>
+        </div>
+    );
+};
+
+export default Article;
+```
+
+上記のようにすることで､タイトルをh2タグ､内容をpタグで囲むコンポーネントを作成することができる｡
+
+import React from "react"はver17から省略可能｡
