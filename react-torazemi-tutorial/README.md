@@ -26,3 +26,26 @@ export default BlueButton;
 6. JSXはかならず階層構造(タグが2つ以上の場合はReact.Fragmentで囲むことで階層構造にする)
 7. React.Fragmentで囲む
 8. React.Fragmentは省略形で書ける(<>)
+
+# Reactの環境生成
+
+Reactの環境構築を行うツールをReactツールチェインという｡Create-react-appもその一つ｡
+
+ファイル構造
+```
+src
+    開発用ファイル
+    ReactコンポーネントのJSXファイルなど
+
+public
+    静的ファイル(.html, .css)
+    画像など
+
+build
+    本番用ファイル
+    npm run buildコマンドを実行すると現れる
+```
+
+npm start: ローカルサーバーの起動｡ホットリロード対応｡
+npm run build: 本番用ファイルの生成｡srcとpublicのファイルを1つにまとめる｡(バンドル)
+npm run eject: BabelやWebpackの設定を変えたいときに使う｡
