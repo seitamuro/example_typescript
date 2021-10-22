@@ -1,23 +1,32 @@
-import Article from "./components/Article";
-import TextInput from "./components/TextInput";
-import Counter from "./components/Counter";
-import Toggle from "./components/Toggle";
+import {useState, useEffect} from "react";
 
 function App() {
+    const [name, setName] = useState("")
+    const [id, setId] = useState("deatiger")
+    const ids = ["deatiger", "matz", "mattn"]
+    const getRandomId = () => {
+        const _id = ids[Math.floor(Math.random() * ids.length)]
+        setId(_id)
+    }
+
+    useEffect(() => {
+        fetch(`https://api.github.com/users/${id}`)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                setName(data.name)
+            })
+            .catch(error => {
+                console.error(error)
+            })
+    }, [id])
+
     return (
         <div>
-            <Article
-                title={"新・日本一わかりやすいReact入門"}
-                content={"今日のトピックはpropsについて"}
-            />
-
-            <TextInput />
-
-            <Counter />
-
-            <Toggle />
+            <p>{id}のGithub上の名前は{name}です｡</p>
+            <button onClick={getRandomId}>IDを変更</button>
         </div>
-    );
+    )
 }
 
 export default App;
