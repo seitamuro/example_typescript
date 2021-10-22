@@ -7,6 +7,8 @@ import Title from './components/Title';
 import Message2 from './components/Message2';
 import SampleContext from './components/context/SampleContext';
 import CalcTotalApp from './components/CalcTotalApp';
+import CalcTotalApp2 from "./components/CalcTotalApp2"
+import CalcTaxApp from './components/app/CalcTaxApp';
 
 function App() {
   const data = [
@@ -48,6 +50,14 @@ function App() {
 
         <div className='container'>
           <CalcTotalApp />
+        </div>
+
+        <div className='container'>
+          <CalcTotalApp2 />
+        </div>
+
+        <div className='container'>
+          <CalcTaxApp />
         </div>
     </div>
   );
