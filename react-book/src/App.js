@@ -3,6 +3,9 @@ import Rect from "./components/Rect"
 import Counter from "./components/Counter"
 import Message from "./components/Message"
 import SimpleForm from './components/SimpleForm';
+import Title from './components/Title';
+import Message2 from './components/Message2';
+import SampleContext from './components/context/SampleContext';
 
 function App() {
   const data = [
@@ -29,6 +32,18 @@ function App() {
         <Message>これはテスト用のテキストです｡句読点がでてくるたびに新しいアイテムとして分割されます｡この文章はMessageコンポーネントの中に書かれており､これはprops.childを通じてMessageコンポーネントに渡されています｡</Message>
 
         <SimpleForm title="Simple Form Example" />
+
+        <div className='container'>
+          <Title />
+          <Message2 />
+        </div>
+
+        <div className='container'>
+          <SampleContext.Provider value={{title: "new title", message: "new message"}}>
+            <Title />
+            <Message2 />
+          </SampleContext.Provider>
+        </div>
     </div>
   );
 }
