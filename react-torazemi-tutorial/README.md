@@ -113,3 +113,50 @@ setIsPublished(true);
 ```
 
 propsとstateはどちらも再描画のきっかけとなる｡propsは引数､stateは関数内部で変更される値｡子から親へ値を渡すときなどにはstate､親から子へ値を渡すときなどはpropsを使う｡
+
+# useStateのユースケース
+
+## 引数を使って更新する
+
+```
+const TextInput = () => {
+    const [name, setName] = useState("")
+
+    const handleName = (event) => {
+        setName(event.target.value)
+    }
+
+    return (
+        <input
+            onChange={(event) => handleName(event)}
+            type={"text"}
+            value={name}
+        />
+    )
+}
+```
+
+## prevState
+
+前のstateの値を使用する｡
+```
+const Counter = () => {
+    const [count, setCount] = useState(0)
+    const countUp = () => {
+        // setCount(count + 1) wrong way!
+        setCount(prevState => prevState + 1)
+    }
+    const countDown = () => {
+        setCount(prevState => prevState - 1)
+    }
+
+    return (
+        <div>
+            <p>count: {count}</p>
+
+            <button onClick={countUp}>up</button>
+            <button onClick={countDown}>down</button>
+        </div>
+    )
+}
+```
