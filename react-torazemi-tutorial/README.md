@@ -91,3 +91,25 @@ export default Article;
 上記のようにすることで､タイトルをh2タグ､内容をpタグで囲むコンポーネントを作成することができる｡
 
 import React from "react"はver17から省略可能｡
+
+# exportとimport
+
+別ファイルの部品(モジュール)を利用するためのもの｡モジュールという単位に分割するためのもの｡原則1ファイル=1モジュール｡
+
+default exportは1ファイル1つ｡Reactでは1度宣言したアロー関数をdefault exportすることで他のファイルから参照できるようになる｡
+
+default importはdefault exportされた関数を読み込むことができる｡
+
+# コンポーネントの状態管理
+
+useStateをつかって状態を管理する｡Hooksという機能を使うことでコンポーネントの状態をFunctional Componentでも管理できるようになった｡stateはコンポーネント内の要素をDOMで直接書き換えたり､再描画するために使う｡
+
+```
+const [現在の状態, 更新関数] = useState(初期値)
+const [message, setMessage] = useState("hello");
+const [likes, setLikes] = useState(0);
+const [isPublished, setIsPublished] = useState(false);
+setIsPublished(true);
+```
+
+propsとstateはどちらも再描画のきっかけとなる｡propsは引数､stateは関数内部で変更される値｡子から親へ値を渡すときなどにはstate､親から子へ値を渡すときなどはpropsを使う｡
