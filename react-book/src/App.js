@@ -6,6 +6,7 @@ import SimpleForm from './components/SimpleForm';
 import Title from './components/Title';
 import Message2 from './components/Message2';
 import SampleContext from './components/context/SampleContext';
+import CalcTotalApp from './components/CalcTotalApp';
 
 function App() {
   const data = [
@@ -43,6 +44,10 @@ function App() {
             <Title />
             <Message2 />
           </SampleContext.Provider>
+        </div>
+
+        <div className='container'>
+          <CalcTotalApp />
         </div>
     </div>
   );
