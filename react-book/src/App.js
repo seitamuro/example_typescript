@@ -10,6 +10,7 @@ import CalcTotalApp from './components/CalcTotalApp';
 import CalcTotalApp2 from "./components/CalcTotalApp2"
 import CalcTaxApp from './components/app/CalcTaxApp';
 import PersistApp from './components/app/PersistApp';
+import MemoApp from './components/app/MemoApp';
 
 function App() {
   const data = [
@@ -63,6 +64,10 @@ function App() {
 
         <div className='container'>
           <PersistApp />
+        </div>
+
+        <div className='container'>
+          <MemoApp />
         </div>
     </div>
   );
