@@ -10,7 +10,7 @@ import CalcTotalApp from './components/CalcTotalApp';
 import CalcTotalApp2 from "./components/CalcTotalApp2"
 import CalcTaxApp from './components/app/CalcTaxApp';
 import PersistApp from './components/app/PersistApp';
-import MemoApp from './components/app/MemoApp';
+import MemoApp from "./components/app/Memo/MemoApp";
 
 function App() {
   const data = [
