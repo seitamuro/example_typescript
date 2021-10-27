@@ -39,7 +39,39 @@ export default function Calculator() {
         setAnswer("0")
         setDisplay(result)
         setOperator("+")
-        console.log(`${answer} ${display} ${stack} ${result}`)
+    }
+
+    const sub = () => {
+        var result = answer
+        if (stack != 0) {
+            result = parseInt(stack) - parseInt(answer)
+        }
+        setStack(result)
+        setAnswer("0")
+        setDisplay(result)
+        setOperator("-")
+    }
+
+    const mul = () => {
+        var result = answer
+        if (stack != 0) {
+            result = parseInt(stack) * parseInt(answer)
+        }
+        setStack(result)
+        setAnswer("0")
+        setDisplay(result)
+        setOperator("*")
+    }
+
+    const div = () => {
+        var result = answer
+        if (stack != 0) {
+            result = parseInt(stack) / parseInt(answer)
+        }
+        setStack(result)
+        setAnswer("0")
+        setDisplay(result)
+        setOperator("/")
     }
 
     const equal = () => {
@@ -47,7 +79,19 @@ export default function Calculator() {
             case "+":
                 add()
                 break
+
+            case "-":
+                sub()
+                break
+
+            case "*":
+                mul()
+                break
             
+            case "/":
+                div()
+                break
+
             default:
                 break
         }
@@ -74,19 +118,19 @@ export default function Calculator() {
                 <CalculatorButton className="col m-2" onClick={appendValue("7")}>7</CalculatorButton>
                 <CalculatorButton className="col m-2" onClick={appendValue("8")}>8</CalculatorButton>
                 <CalculatorButton className="col m-2" onClick={appendValue("9")}>9</CalculatorButton>
-                <CalculatorButton className="col m-2 bg-primary">/</CalculatorButton>
+                <CalculatorButton className="col m-2 bg-primary" onClick={div}>/</CalculatorButton>
             </div>
             <div className="row p-1 px-2">
                 <CalculatorButton className="col m-2" onClick={appendValue("4")}>4</CalculatorButton>
                 <CalculatorButton className="col m-2" onClick={appendValue("5")}>5</CalculatorButton>
                 <CalculatorButton className="col m-2" onClick={appendValue("6")}>6</CalculatorButton>
-                <CalculatorButton className="col m-2 bg-primary">*</CalculatorButton>
+                <CalculatorButton className="col m-2 bg-primary" onClick={mul}>*</CalculatorButton>
             </div>
             <div className="row p-1 px-2">
                 <CalculatorButton className="col m-2" onClick={appendValue("1")}>1</CalculatorButton>
                 <CalculatorButton className="col m-2" onClick={appendValue("2")}>2</CalculatorButton>
                 <CalculatorButton className="col m-2" onClick={appendValue("3")}>3</CalculatorButton>
-                <CalculatorButton className="col m-2 bg-primary">-</CalculatorButton>
+                <CalculatorButton className="col m-2 bg-primary" onClick={sub}>-</CalculatorButton>
             </div>
             <div className="row p-1 px-2">
                 <CalculatorButton className="col m-2" onClick={appendValue("00")}>00</CalculatorButton>
