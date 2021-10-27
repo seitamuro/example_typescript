@@ -1,0 +1,9 @@
+.calculator-frame {
+    background-color:lightgray;
+    border-radius: 25px;
+}
+
+.answer-display {
+    background-color:whitesmoke;
+    border-radius: 25px;
+}
