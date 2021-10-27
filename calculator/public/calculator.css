@@ -12,3 +12,11 @@
     background-color: whitesmoke;
     border-radius: 25px;
 }
+
+.calculator-button-function {
+    background-color:springgreen;
+}
+
+.calculator-button-reset {
+    background-color: tomato;
+}

@@ -1,11 +1,7 @@
-import CalculatorContext from "./context/CalculatorContext"
-import { useContext } from "react"
-
-export default function AnswerDisplay() {
-    const context = useContext(CalculatorContext)
+export default function AnswerDisplay(props) {
     return (
         <p className="answer-display p-4 h3">
-            <b>{context.answer}</b>
+            <b>{props.value}</b>
         </p>
     )
 }
