@@ -49,3 +49,64 @@ node server.js
 ```
 
 を実行することで､サーバーを立ち上げることができる｡localhost:8081にアクセスすることで`Hello World`というレスポンスを取得することができる｡
+
+# ResponseオブジェクトとRequestオブジェクト
+
+これらのオブジェクトは以下のようにしたときに受け取ることができる｡
+
+```
+app.get("/", (req, res) => {
+    ...
+})
+```
+
+ここで､reqがRequestオブジェクト､resがResponseオブジェクトである｡これらはHTTPのヘッダーやボディ､クッキーなどの情報を含んでいる｡これらを利用することでバックエンドの処理を行う｡
+
+# ルーティング
+
+簡単なルーティングの例を以下に示す｡
+
+```javascript:routing.js
+var express = require("express")
+var app = express()
+
+app.get("/", (req, res) => {
+    console.log("GET a GET request for the homepage.")
+    res.send("Hello GET")
+})
+
+app.post("/", (req, res) => {
+    console.log("Got a POST request for the homepage.")
+    res.send("Hello POST")
+})
+
+app.delete("/del_user", (req, res) => {
+    console.log("Got a DELETE request for homepage.")
+    res.send("Hello DELETE")
+})
+
+app.get("/list_user", (req, res) => {
+    console.log("Got a GET request for /list_user")
+    res.send("Page Listing")
+})
+
+app.get("/ab*cd", (req, res) => {
+    console.log("Got a GET request for /ab*cd")
+    res.send("Page Pattern Match")
+})
+
+var server = app.listen(8081, "localhost", () => {
+    var host = server.address().address
+    var port = server.address().port
+
+    console.log(`Example app listening at http://${host}:${port}`)
+})
+```
+
+上記の例は
+
+```
+node routing.js
+```
+
+で実行することができる｡localhost:8081に対してGETやPOSTを行うことで上記の処理に示してあるような動作が行われる｡
