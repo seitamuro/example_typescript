@@ -281,3 +281,109 @@ node file-upload.js
 ```
 
 で実行することができる｡これでアップロードしたファイルは一時ファイルが./tmpフォルダに格納され､本体が./public/uploadedに保存される｡
+
+# REST architecture
+
+RESTはREpresentational State Transferの略称｡標準的なアーキテクチャーであり､HTTPプロトコルである｡
+RESTサーバーはリソースへの接続と編集をHTTPを通じて可能にする｡RESTは以下の4つのメソッドで使われる｡
+
+- GET - 読み取り専用のリソースへに利用される
+- PUT - 新たにリソースを作成するために利用される
+- DELETE - リソースを削除するために利用される
+- POST - 存在するリソースのアップデートや作成に利用される
+
+以下のJSONに従ってRESTfulサーバーを作成する｡
+
+```json:users.json
+{
+    "user1": {
+        "name": "mahesh",
+        "password": "password",
+        "profession": "teacher",
+        "id": 1
+    },
+
+    "user2": {
+        "name": "suresh",
+        "password": "password2",
+        "profession": "librarian",
+        "id": 2
+    }, 
+
+    "user3": {
+        "name": "ramesh",
+        "password": "password3",
+        "profession": "clerk",
+        "id": 3
+    }
+}
+```
+
+上記の情報に合わせて以下の表のようなRESTful APIの作成を行う｡
+
+|Sr.No|URI|HTTP Method|POST body|Result|
+|----|----|----|----|----|
+|1|listUsers|GET|empty|Show list of all the users.|
+|2|addUser|POST|JSON String|Add details of new user.|
+|3|deleteUser|DELETE|JSON String|Delete an existing user.|
+|4|:id|GET|empty|Show details of a user.|
+
+上記の動作を行うRESTful APIのプログラムを以下に示す｡
+
+```
+var express = require("express")
+var app = express()
+var fs = require("fs")
+
+app.get("/listUsers", (req, res) => {
+    fs.readFile(`${__dirname}/public/users.json`, "utf8", (err, data) => {
+        console.log(data)
+        res.end(data)
+    })
+})
+
+var user = {
+    "user4": {
+        "name": "mohit",
+        "password": "password4",
+        "profession": "teacher",
+        "id": 4
+    }
+}
+
+app.post("/addUser", (req, res) => {
+    fs.readFile(`${__dirname}/public/users.json`, "utf8", (err, data) => {
+        data = JSON.parse(data)
+        data["user4"] = user["user4"]
+        console.log(data)
+        res.end(JSON.stringify(data))
+    })
+})
+
+app.get("/:id", (req, res) => {
+    fs.readFile(`${__dirname}/public/users.json`, "utf8", (err, data) => {
+        var users = JSON.parse(data)
+        var user = users["user" + req.params.id]
+        console.log(user)
+        res.end(JSON.stringify(user))
+    })
+})
+
+app.delete("/deleteUser", (req, res) => {
+    fs.readFile(`${__dirname}/public/users.json`, "utf8", (err, data) => {
+        data = JSON.parse(data)
+        delete data["user" + 2]
+
+        console.log(data)
+        res.end(JSON.stringify(data))
+    })
+})
+
+var server = app.listen(8081, "localhost", () => {
+    var host = server.address().address
+    var port = server.address().port
+
+    console.log(`Example app listening at http://${host}:${port}`)
+})
+```
+
