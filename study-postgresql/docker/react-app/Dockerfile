@@ -1,7 +1,10 @@
 FROM node:latest
 
-ENV APP_PATH=/react-app
-RUN mkdir $APP_PATH
+RUN npx create-next-app next-app -y
+
+ENV APP_PATH=/next-app
 WORKDIR $APP_PATH
+
+RUN npm install superagent -y
 
 CMD ["npm", "run", "dev"]

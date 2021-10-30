@@ -5,7 +5,9 @@ services:
     build: docker/react-app
     tty: true
     volumes:
-      - "./next-app:/react-app:rw"
+      - type: "bind"
+        source: ./next-app
+        target: /next-app
     stdin_open: true
     ports:
         - "3000:3000"
@@ -30,7 +32,9 @@ services:
   pgadmin4:
     image: dpage/pgadmin4:3.3
     ports:
-      - 5050:80
+      - 80:80
+      - 5050:5050
+      - 443:443
     volumes:
       - ./pgadmin:/var/lib/pgadmin
     environment:
@@ -39,3 +43,9 @@ services:
     depends_on:
       - postgresql
     hostname: pgadmin4
+
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 172.19.0.0/24
