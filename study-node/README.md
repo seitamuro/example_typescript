@@ -44,3 +44,14 @@ console.log("Server running at http://127.0.0.1:8081)
 ```
 node main.js
 ```
+
+# REPL 
+
+REPLはRad Eval Print Loopの略称｡REPLは以下の機能を持つ｡
+
+- Read - ユーザーの入力を読み､JavaScriptのデータ構造に落とし込み､記憶する｡
+- Eval - データ構造を受け取り､評価する｡
+- Print - 結果を表示する｡
+- Loop - ユーザーが`Ctrl+C`を押すまでループする｡
+
+nodeコマンドを実行すると上記のようなREPLアプリケーションが実行される｡四則演算などのJavaScriptの構文を実行することができる｡
