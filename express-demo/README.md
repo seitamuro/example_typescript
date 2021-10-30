@@ -179,4 +179,4 @@ var server = app.listen(8081, "localhost", () => {
 node get.js
 ```
 
-で実行することができる｡`localhost:8081/index.html`にアクセスすることで入力フォームを取得することができ､フォームを入力後､Submitを行うと`localhost:8081/process_get`に移動し､入力内容に合わせたJSONが返答される｡
+で実行することができる｡`localhost:8081/`にアクセスすることで入力フォームを取得することができ､フォームを入力後､Submitを行うと`localhost:8081/process_get`に移動し､入力内容に合わせたJSONが返答される｡

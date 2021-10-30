@@ -2,9 +2,8 @@ const { response } = require("express")
 var express = require("express")
 var app = express()
 
-app.use(express.static("public"))
-app.get("/index.html", (req, res) => {
-    res.sendFile(`${__dirname}/index.html`)
+app.get("/", (req, res) => {
+    res.sendFile(`${__dirname}/public/index-get.html`)
 })
 
 app.get("/process_get", (req, res) => {
