@@ -180,3 +180,44 @@ node get.js
 ```
 
 で実行することができる｡`localhost:8081/`にアクセスすることで入力フォームを取得することができ､フォームを入力後､Submitを行うと`localhost:8081/process_get`に移動し､入力内容に合わせたJSONが返答される｡
+
+# POST
+
+POSTメソッドを処理する内容を以下に示す｡
+
+```
+var express = require("express")
+var app = express()
+var bodyParser = require("body-parser")
+const { response } = require("express")
+
+var urlencodedParser = bodyParser.urlencoded({extended: false})
+
+app.get("/", (req, res) => {
+    res.sendFile(`${__dirname}/public/index-post.html`)
+})
+
+app.post("/process_post", urlencodedParser, (req, res) => {
+    var response = {
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+    }
+    console.log(response)
+    res.end(JSON.stringify(response))
+})
+
+var server = app.listen(8081, "localhost", () => {
+    var host = server.address().address
+    var port = server.address().port
+
+    console.log(`Example app listening at http://${host}:${port}`)
+})
+```
+
+上記の内容は
+
+```
+node post.js
+```
+
+で実行することができる｡get.jsでGETで行っていた内容をPOSTで行っている｡
