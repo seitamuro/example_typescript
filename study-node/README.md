@@ -82,3 +82,39 @@ npm init
 ```
 npm publish
 ```
+
+# BlockingとNon-Blocking
+
+下記のようなテキストファイルを用意する｡
+
+```
+This is test text. This text was written for understanding difference between Blocking and Non-Blocking.
+```
+
+このファイルをBlockingで読み込むプログラムを以下に示す｡
+
+```
+var fs = require("fs)
+var data = fs.readFileSync("input.txt")
+
+console.log(data.toString())
+console.log("Program Ended")
+```
+
+Non-Blockingで読み込むプログラムを以下に示す｡
+
+```
+var fs = require("fs")
+
+fs.readFile("input.txt", (err, data) => {
+    if (err) {
+        return console.error(err)
+    } else {
+        console.log(data.toString())
+    }
+})
+
+console.log("Program Ended")
+```
+
+上記の例の場合､ファイルの内容のあとにProgram Endedが表示され､後の場合､Program Endedのあとにファイルの内容が表示される｡Non-Blockingの場合､処理内容はコールバック関数を利用する｡
