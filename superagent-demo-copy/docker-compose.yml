@@ -1,25 +1,12 @@
 version: "3"
 
 services:
-  #react-app:
-    #build: docker/react-app
-    #tty: true
-    #volumes:
-      #- type: "bind"
-        #source: ./next-app
-        #target: /next-app
-    #stdin_open: true
-    #ports:
-        #- "3000:3000"
-    #user: root
-
   postgresql:
     image: postgres:10.5
     ports:
       - 5432:5432
     volumes:
-      - ./postgresql/init/:/docker-entrypoint-initdb.d
-      - C:\Users\${USER}\Volume\study_postgresql\postgres:/var/lib/postgresql/data
+      - C:\Users\${USER}\Volume\superagent-demo\postgres:/var/lib/postgresql/data
     environment:
       PSOTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
