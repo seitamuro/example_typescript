@@ -110,3 +110,33 @@ node routing.js
 ```
 
 で実行することができる｡localhost:8081に対してGETやPOSTを行うことで上記の処理に示してあるような動作が行われる｡
+
+# 静的ファイルの配信
+
+`app.use(express.static('フォルダ名'))`を利用することで静的ファイルの配信を行うことができる｡
+
+```
+var express = require("express")
+var app = express()
+
+app.use(express.static("public"))
+
+app.get("/", (req, res) => {
+    res.send("Hello World")
+})
+
+var server = app.listen(8081, "localhost", () => {
+    var host = server.address().address
+    var port = server.address().port
+
+    console.log(`Example app listening at http://${host}:${port}`)
+})
+```
+
+上記の内容は
+
+```
+node static.js
+```
+
+で実行することができる｡実行後､`localhost:8081/text.txt`にアクセスすることで､text.txtの内容をブラウザから閲覧することができる｡
