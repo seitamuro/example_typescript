@@ -140,3 +140,43 @@ node static.js
 ```
 
 で実行することができる｡実行後､`localhost:8081/text.txt`にアクセスすることで､text.txtの内容をブラウザから閲覧することができる｡
+
+# GETリクエスト
+
+GETリクエストを受けたときに処理を行う例として以下を示す｡
+
+```
+const { response } = require("express")
+var express = require("express")
+var app = express()
+
+app.use(express.static("public"))
+app.get("/index.html", (req, res) => {
+    res.sendFile(`${__dirname}/index.html`)
+})
+
+app.get("/process_get", (req, res) => {
+    var response = {
+        first_name: req.query.first_name,
+        last_name: req.query.last_name,
+    }
+
+    console.log(response)
+    res.end(JSON.stringify(response))
+})
+
+var server = app.listen(8081, "localhost", () => {
+    var host = server.address().address
+    var port = server.address().port
+
+    console.log(`Example app listening at http://${host}:${port}`)
+})
+```
+
+上記の例は
+
+```
+node get.js
+```
+
+で実行することができる｡`localhost:8081/index.html`にアクセスすることで入力フォームを取得することができ､フォームを入力後､Submitを行うと`localhost:8081/process_get`に移動し､入力内容に合わせたJSONが返答される｡
