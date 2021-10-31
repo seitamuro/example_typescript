@@ -118,3 +118,58 @@ console.log("Program Ended")
 ```
 
 上記の例の場合､ファイルの内容のあとにProgram Endedが表示され､後の場合､Program Endedのあとにファイルの内容が表示される｡Non-Blockingの場合､処理内容はコールバック関数を利用する｡
+
+# Event Loop
+
+Node.jsはシングルスレッドアプリケーションでありながら､eventとcallbackを利用することで非同期処理を可能にしている｡このためにasync関数を使っています｡
+
+Node.jsはEventEmitterからEventを受け取り､その内容に対応したcallback関数が非同期的に呼び出される｡これらは以下のプログラムで実行することができる｡
+
+```javascript
+// eventsモジュールのimport
+var events = require("events")
+
+// eventEmitterオブジェクトを生成
+var eventEmitter = new events.EventEmitter()
+
+// eventとそのコールバック関数の結びつけ
+eventEmitter.on("eventName", eventHandler)
+
+// eventを生成する
+eventEmitter.emit("eventName")
+```
+
+具体的な例を以下に示す｡
+
+```javascript
+var events = require("events")
+
+var eventEmitter = new events.EventEmitter()
+
+var connectHandler = () => {
+    console.log("connection successful.")
+
+    eventEmitter.emit("data_received")
+}
+
+eventEmitter.on("connection", connectHandler)
+
+eventEmitter.on("data_received", () => {
+    console.log("data received successfully.")
+})
+
+eventEmitter.emit("connection")
+
+console.log("Program Ended.")
+```
+
+上記の例は
+
+```
+node event-loop.js
+```
+
+で実行することができる｡
+
+# 参考文献
+https://www.tutorialspoint.com/nodejs/index.htm
