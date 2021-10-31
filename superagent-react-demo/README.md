@@ -1,0 +1,1 @@
+ReactのコンポーネントでSuperAgentを利用して､非同期的にデータを取得し､それを表示するプログラムの例です｡CORSが発生するので､server.jsで`Access-Control-Allow-Origin: *`をヘッダーに加えることで解決しています｡
