@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  express-app:
+    build: docker/express-app
+    tty: true
+    volumes: 
+      - ./express-app:/express-app
+    ports:
+      - "8081:8081"
+    user: root
+
+  next-app:
+    build: ./next-app
+    tty: true
+    ports:
+      - "3000:3000"
+    user: root
