@@ -207,5 +207,42 @@ eventのlistenerのリストを返す｡
 
 引数と一緒にeventを発生させる｡
 
+# Buffers
+
+JavaScriptはUnicodeを前提とした言語である｡しかし､JavaScriptはTCP streamやその他ファイルを8bitデータとして扱わなければならない｡これを行うクラスがBufferクラスである｡
+
+Bufferの使い方はいくつか方法がある｡
+
+1. サイズで指定
+
+```
+var buf = new Buffer(10)
+```
+
+2. 配列から生成する
+
+```
+var buf = new Buffer([10, 20, 30, 40, 50])
+```
+
+3. Stringとエンコードから生成する
+
+```
+var buf = new Buffer("Simply Easy Learning", "utf-8")
+```
+
+Bufferへの書き込みにはwrite関数を利用する｡
+
+```javascript
+buf.write(string, [, offset] [, length] [, encoding])
+```
+
+各パラメータを以下に示す｡
+
+- string - バッファーに書き込む文字列
+- offset - 書き込みを始めるindex
+- length - 書き込む文字列の長さ
+- encoding - 使用するエンコードの種類
+
 # 参考文献
 https://www.tutorialspoint.com/nodejs/index.htm
