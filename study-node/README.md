@@ -244,5 +244,145 @@ buf.write(string, [, offset] [, length] [, encoding])
 - length - 書き込む文字列の長さ
 - encoding - 使用するエンコードの種類
 
+
+# Stream
+
+継続的にデータを読み取る､書き込むために利用するもの｡以下の4種類がある｡
+
+- Readable - 読み込みに利用される
+- Writable - 書き込みに利用される
+- Duplex - 書き込み､読み込みに利用される
+- Transform - 入力をもとに計算して出力するもの
+
+各StreamはEventEmitterにeventを投げることができる｡
+
+- data - データが読み込み可能になったら発生する
+- end - 読み込めるデータがなくなったら発生する
+- error - エラーが発生したときに発生する
+- finish - すべてのデータが読み込み終わったら発生する｡
+
+読み込み用ストリームの例を以下に示す｡
+
+```javascript
+var fs = require("fs")
+var data = ""
+
+var readerStream = fs.createReadStream("input.txt")
+
+readerStream.setEncoding("UTF8")
+
+readerStream.on("data", (chunk) => {
+    data += chunk
+})
+
+readerStream.on("end", () => {
+    console.log(data)
+})
+
+readerStream.on("error", (err) => {
+    console.log(err.stack)
+})
+
+console.log("Program Ended")
+```
+
+上記の例は以下に示す｡
+
+```
+node reading-stream.js
+```
+
+書き込み用ストリームの例を以下に示す｡
+
+```javascript
+var fs = require("fs")
+const { writer } = require("repl")
+var data = "Simply Easy Learning"
+
+var writerStream = fs.createWriteStream("output.txt")
+
+writerStream.write(data, "UTF8")
+
+writerStream.end()
+
+writerStream.on("finish", () => {
+    console.log("Write completed.")
+})
+
+writerStream.on("error", (err) => {
+    console.log(err.stack)
+})
+
+console.log("Program Ended")
+```
+
+上記のプログラムは
+
+```
+node writing-stream.js
+```
+
+に示す｡
+
+ストリームはパイプを利用してデータを流すことができる｡
+
+```javascript
+var fs = require("fs")
+
+var readerStream = fs.createReadStream("input.txt")
+
+var writerStream = fs.createWriteStream("output2.txt")
+
+readerStream.pipe(writerStream)
+
+console.log("Program Ended")
+```
+
+上記のプログラムは
+
+```
+node pipe-stream.js
+```
+
+で実行できる｡これで示したとおり､ストリームは組み合わせることができる｡以下に入力されたテキストをzipする例を示す｡
+
+```javascript
+var fs = require("fs")
+var zlib = require("zlib")
+
+fs.createReadStream("input.txt")
+    .pipe(zlib.createGzip())
+    .pipe(fs.createWriteStream("input.txt.gz"))
+
+console.log("File Compressed.")
+```
+
+上記の例は
+
+```
+node zip-stream.js
+```
+
+で実行できる｡これをunzipするプログラムを以下に示す｡
+
+```javascript
+var fs = require("fs")
+var zlib = require("zlib")
+
+fs.createReadStream("input.txt.gz")
+    .pipe(zlib.createGunzip())
+    .pipe(fs.createWriteStream("unzip-input.txt"))
+
+console.log("File Decompressed.")
+```
+
+上記の例は
+
+```
+node unzip-stream.js
+```
+
+で実行することができる｡
+
 # 参考文献
 https://www.tutorialspoint.com/nodejs/index.htm
