@@ -171,5 +171,41 @@ node event-loop.js
 
 で実行することができる｡
 
+# Event Emitter
+
+EventEmitterインスタンスの持つかくメソッドについて述べる｡
+
+1. addListener(event, listener)
+
+特定のイベントのlistenerの配列の最後に追加する｡同一のlistenerがすでに追加されているかは確認しない｡
+
+2. on(event, listener)
+
+addListenerと同じ｡
+
+3. once(event, listener)
+
+次にeventが発生したときのみlistenerを呼び出す｡このlistenerは一度だけ呼び出される｡
+
+4. removeListener(event, listener)
+
+指定されたlistenerを削除する｡このlistenerが複数回追加されたものであれば､複数回呼び出す必要がある｡
+
+5. removeAllListeners([event])
+
+指定されたeventのlistenerをすべて削除する｡
+
+6. setMaxListeners(n)
+
+デフォルトでは10個以上のlistenerがつけられた場合､警告が出る｡この関数を利用することで､この警告が出るまでの個数を指定することができる｡
+
+7. listeners(event)
+
+eventのlistenerのリストを返す｡
+
+8. emit(event, [arg1], [arg2], [...])
+
+引数と一緒にeventを発生させる｡
+
 # 参考文献
 https://www.tutorialspoint.com/nodejs/index.htm
