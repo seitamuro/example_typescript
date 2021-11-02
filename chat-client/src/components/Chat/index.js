@@ -5,7 +5,9 @@ import { UsersContext } from "../../usersContext"
 import { useHistory } from "react-router-dom"
 import { useToast, Box, Flex, Heading, Menu, Button, Text, MenuButton, IconButton, MenuList, MenuItem } from "@chakra-ui/react"
 import { FiList } from "react-icons/fi"
-import { RiLogoutBoxFill } from "react-icons/ri"
+import { RiSendPlaneFill } from "react-icons/ri"
+import { BiMessageDetail } from "react-icons/bi"
+import ScrollToBottom from "react-scroll-to-bottom"
 
 export default function Chat() {
     const { name, room, setName, setRoom } = useContext(MainContext)
@@ -46,6 +48,7 @@ export default function Chat() {
     }, [socket, toast])
 
     window.onpopstate = e => logout()
+    useEffect(() => { if (!name) return history.push("/") }, [history, name])
 
     return(
         <Flex className="room" flexDirection="column" width={{ base: "100%", sm: "575px" }} height={{ base: "100%", sm: "auto" }}>
@@ -72,6 +75,28 @@ export default function Chat() {
                     <Button color="gray.500" fontSize="sm" onClick={logout}>Logout</Button>
                 </Flex>
             </Heading>
+
+            <ScrollToBottom className="messages" debug={false}>
+                {messages.length > 0 ?
+                    messages.map((msg, i) => (
+                        <Box key={i} className={`message ${msg.user === name ? "my-message" : ""}`} m=".2rem 0">
+                            <Text fontsize="xs" opacity=".7" ml="5px" className="user">{msg.user}</Text>
+                            <Text fontsize="sm" opacity="msg" p=".4rem .8rem" bg="white" borderRadius="15px" className="msg" color="white">{msg.text}</Text>
+                        </Box>)
+                    )
+                    :
+                    <Flex alignItems="center" justifyContent="center" mt=".5rem" bg="#EAEAEA" opacity=".2" w="100%">
+                        <Box mr="2">---</Box>
+                        <BiMessageDetail fontSize="1rem" />
+                        <Text ml="1" fontWeight="400">No messages</Text>
+                        <Box ml="2">---</Box>
+                    </Flex>
+                }
+            </ScrollToBottom>
+            <div className="form">
+                <input type="text" placeholder="Enter Message" value={message} onChange={e => setMessage(e.target.value)} />
+                <IconButton colorScheme="green" isRound="true" icon={<RiSendPlaneFill />} onClick={handleSendMessage} disabled={message === "" ? true : false}>Send</IconButton>
+            </div>
         </Flex>
     )
 }
