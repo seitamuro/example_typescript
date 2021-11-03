@@ -253,3 +253,59 @@ http.listen(3000, () => {
 ```
 
 上記のプログラムを実行すると､クライアント側で現在接続しているクライアントの数が表示される｡
+
+
+# NameSpace
+
+NameSpaceはサーバーサイドにのみある機能である｡これを使うことで､リソースの削減やチャンネルを作成することができる｡
+
+デフォルトのNameSpaceは`/`である｡これはNameSpaceが指定されていないときに割り当てられるものである｡このNameSpaceに割り当てられるとき､クライアント側のスクリプトは以下のようになっている｡
+
+```javascript
+var socket = io()
+```
+
+サーバーサイドでは名前空間の定義に`io.of`関数を利用する｡クライアントサイドでは特定の名前空間に接続する際に`io(NameSpace)`を利用する｡以下にその例を示す｡
+
+サーバーサイド
+
+```javascript
+var app = require("express")()
+var http = require("http").Server(app)
+var io = require("socket.io")(http)
+
+app.get("/", (req, res) => {
+    res.sendFile(`${__dirname}/index.html`)
+})
+
+var nsp = io.of("/my-namespace")
+var clients = 0
+nsp.on("connection", (socket) => {
+    clients++
+    nsp.emit("hi", `Hello everyone! x ${clients}`)
+
+    socket.on("disconnect", () => {
+        clients--;
+        nsp.emit("hi", `Hello everyone! x ${clients}`)
+    })
+})
+
+http.listen(3000, () => {
+    console.log(`Listening on *:3000`)
+})
+```
+
+クライアンサイド
+
+```javascript
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket = io("/my-namespace")
+    socket.on("hi", (data) => {
+        document.body.innerHTML = ""
+        document.write(data)
+    })
+</script>
+```
+
+接続されるたびに`Hello everyone! x 接続数`と表示される｡同様に､切断されるたびに接続数が更新される｡これはNameSpaceか異なれば､接続数は別のカウントを持つ｡
