@@ -2,12 +2,21 @@
 <html>
     <head>
         <title>Chat Room</title>
+        <script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
         <script src="/socket.io/socket.io.js"></script>
-        <script>
-            var socket = io()
-        </script>
+        <script type="text/javascript" src="./enter.js"></script>
     </head>
 
     <body>
+        <h2>入室フォーム</h2>
+        <hr>
+        <div id="error-container" style="color: red;"></div>
+        <form>
+            <label for="room">Room: </label>
+            <input type="text" id="room" name="room"><br>
+            <label for="username">Username: </label>
+            <input type="text" id="username" name="username"><br>
+            <input type="button" onclick="enterRoom()" value="入室" />
+        </form>
     </body>
 </html>
