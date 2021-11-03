@@ -109,6 +109,100 @@ socket.ioはユーザーが定義したイベントの他に事前に登録さ�
 - connect_error
 - connect_timeout
 - reconnect
+- message
 - etc...
 
-3. example
+3. messageイベントのサンプル
+
+サーバーサイドのプログラムを以下に示す｡
+
+```
+var app = require("express")()
+var http = require("http").Server(app)
+var io = require("socket.io")(http)
+
+app.get("/", (req, res) => {
+    res.sendFile(`${__dirname}/index.html`)
+})
+
+io.on("connection", (socket) => {
+    console.log("A user connected")
+
+    setTimeout(() => {
+        socket.send("Sent a message 4seconds after connection!")
+    }, 4000)
+
+    socket.on("disconnect", () => {
+        console.log("A user disconnected")
+    })
+})
+
+http.listen(3000, () => {
+    console.log(`Listening on *:3000`)
+})
+```
+
+12行目あたりの`setTimeout(callback, ミリ秒)`で指定することができる｡ここでは"Sent a message 4seconds after connection!"というテキストを送信している｡これは`message`イベントとして処理される｡これはクライアント側で以下のスクリプトを書くことでこのテキストを受け取っている｡
+
+```
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket = io()
+    socket.on("message", (data) => {
+        document.write(data)
+    })
+</script>
+```
+
+`.on("message", callback)`で`message`イベントを処理している｡ここでは､`message`イベントで送られてきたテキストでDOMを書き換えています｡
+
+4. ユーザー定義のイベントのサンプル
+
+ここでは`clientEvent`というイベントを定義し､そのイベントを処理するサンプルを示す｡
+
+サーバー側のプログラムは以下の通りである｡
+
+```
+var app = require("express")()
+var http = require("http").Server(app)
+var io = require("socket.io")(http)
+
+app.get("/", (req, res) => {
+    res.sendFile(`${__dirname}/index.html`)
+})
+
+io.on("connection", (socket) => {
+    console.log("A user connected")
+
+    socket.on("clientEvent", (data) => {
+        console.log(data)
+    })
+})
+
+http.listen(3000, () => {
+    console.log(`Listening on *:3000`)
+})
+```
+
+クライアント側のプログラムを以下に示す｡
+
+```
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hello World</title>
+</head>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket = io()
+    socket.emit("clientEvent", "Sent an event from the client!")
+</script>
+
+<body>
+    Hello World
+</body>
+</html>
+```
+
+`.emit(イベント名, 送信データ)`とすることでイベントを発生させることができる｡このイベントは`.on`関数で受け取ることができる｡
