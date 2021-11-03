@@ -206,3 +206,50 @@ http.listen(3000, () => {
 ```
 
 `.emit(イベント名, 送信データ)`とすることでイベントを発生させることができる｡このイベントは`.on`関数で受け取ることができる｡
+
+# Broadcast
+
+接続しているすべてのクライアントにデータを送信することをブロードキャストという｡これをSocket.ioでやろうとすると今までのイベント駆動の方法では実現できないことわかる｡(`connection`イベントを待ち受け､そこで受け取ったsocketに対して`emit`関数でイベントを発生させるため｡)これを解決するのが`io.sockets.emit`関数を利用する方法である｡これを使えばすべてのクライアントへデータを送ることができる｡
+
+サーバー側のプログラムを以下に示す｡
+
+```
+var app = require("express")()
+var http = require("http").Server(app)
+var io = require("socket.io")(http)
+
+app.get("/", (req, res) => {
+    res.sendFile(`${__dirname}/index.html`)
+})
+
+var clients = 0
+
+io.on("connection", (socket) => {
+    clients++
+
+    io.sockets.emit("broadcast", { description: clients + " clients connected!"})
+    socket.on("disconnect", () => {
+        clients--;
+        io.sockets.emit("broadcast", { description: clients + " clients connected!"})
+    })
+})
+
+http.listen(3000, () => {
+    console.log(`Listening on *:3000`)
+})
+```
+
+クライアント側のプログラムを以下に示す｡
+
+```
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket = io()
+    socket.on("broadcast", (data) => {
+        document.body.innerHTML = ""
+        document.write(data.description)
+    })
+</script>
+```
+
+上記のプログラムを実行すると､クライアント側で現在接続しているクライアントの数が表示される｡

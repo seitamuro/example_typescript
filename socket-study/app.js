@@ -6,11 +6,15 @@ app.get("/", (req, res) => {
     res.sendFile(`${__dirname}/index.html`)
 })
 
-io.on("connection", (socket) => {
-    console.log("A user connected")
+var clients = 0
 
-    socket.on("clientEvent", (data) => {
-        console.log(data)
+io.on("connection", (socket) => {
+    clients++
+
+    io.sockets.emit("broadcast", { description: clients + " clients connected!"})
+    socket.on("disconnect", () => {
+        clients--;
+        io.sockets.emit("broadcast", { description: clients + " clients connected!"})
     })
 })
 
