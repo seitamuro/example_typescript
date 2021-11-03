@@ -6,8 +6,8 @@
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
-    var socket = io("/my-namespace2")
-    socket.on("hi", (data) => {
+    var socket = io()
+    socket.on("connectToRoom", (data) => {
         document.body.innerHTML = ""
         document.write(data)
     })
