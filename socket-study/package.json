@@ -1,0 +1,16 @@
+{
+  "name": "socket-study",
+  "version": "1.0.0",
+  "description": "双方向・リアルタイム・イベント駆動型で､ブラウザとサーバー間の通信を可能にするライブラリである｡多くの言語で実行されており､node.jsのサーバーとブラウザ用のJavaScriptクライアントのライブラリで構成されている｡",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^4.3.1"
+  }
+}
