@@ -6,6 +6,7 @@
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
+    localStorage.debug = "*"
     var socket = io()
     socket.on("connectToRoom", (data) => {
         document.body.innerHTML = ""
