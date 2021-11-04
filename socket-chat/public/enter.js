@@ -14,8 +14,15 @@ socket.on("error", (msg) => {
 socket.on("chat", (data) => {
     $("body").html(data.html)
     $("#room").html(room)
-    $("#message").html(data.messages)
-    console.log(`${data.messages}`)
+
+    data.messages.map((msg, i) => {
+        $("#message").append(`<b>${msg.username} </b><p style="display: inline;">${msg.message}</p><br>`)
+    })
+})
+
+// ウェルカムメッセージ
+socket.on("entering-new-user", newuser => {
+    $("#message").append(`<p style="display: inline;"> --- Hello ${newuser}! Welcome to ${room}! ---</p><br>`)
 })
 
 // 入室処理
@@ -30,14 +37,10 @@ const enterRoom = () => {
 const sendMessage = () => {
     var message = $("input#new-message").val()
 
-    console.log("send message")
-
     socket.emit("send-message", { username: username, room: room, message: message})
 }
 
 // 新規メッセージを取得
 socket.on("update-message", html => {
-    console.log("get new message")
-    console.log(`${html}`)
     $("#message").append(html)
 })

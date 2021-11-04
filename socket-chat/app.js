@@ -22,40 +22,35 @@ app.get("/", (req, res) => {
 // ソケットの処理
 io.on("connection", socket => {
     // 接続・切断の表示
-    console.log("connection")
     socket.on("disconnect", () => {
-        console.log("disconnection")
     })
 
     // 入室処理
     socket.on("enter-room", (data) => {
-        console.log(`${data.username} wants to enter ${data.room}?`)
 
         if (users.indexOf(data.username) > -1 || data.room === "") { // error!
-            console.log(`${data.username} is exists! So you can not enter ${data.room}!`)
             socket.emit("error", `${data.username} is exists!`)
         } else { // OK!
-            console.log(`OK!`)
             users.push(data.username)
             socket.join(data.room)
-            fs.readFile("./chat.html", (error, data) => {
+            fs.readFile("./chat.html", (error, html) => {
                 if (error) throw error
-                else socket.emit("chat", {html: data.toString(), messages: messages[`${data.room}`]})
+                else socket.emit("chat", {html: html.toString(), messages: messages[`${data.room}`]})
+                io.to(data.room).emit("entering-new-user", data.username)
             })
         }
     })
 
     // チャットルームの処理
     socket.on("send-message", data => {
-        console.log("get new message!")
         if (data.message !== "") {
-            console.log(`reive and broadcast ${data.message} to ${data.room}`)
 
             if (!messages[`${data.room}`]) {
                 messages[`${data.room}`] = []
             }
-            messages[`${data.room}`].push(data.message)
-            io.to(data.room).emit("update-message", `<b>${data.username}</b> <p style="display: inline;">${data.message}<\p>`)
+
+            messages[`${data.room}`].push({username: data.username, message: data.message})
+            io.to(data.room).emit("update-message", `<b>${data.username}</b> <p style="display: inline;">${data.message}</p><br>`)
         }
     })
 })
