@@ -23,6 +23,7 @@ const LoginProvider = (props) => {
         })
         .then(response => {
             console.log(`success ${response.data}`)
+            setLoginId(response.data)
         })
         .catch(error => {console.log(`failed ${error.response.data.message}`)})
     }

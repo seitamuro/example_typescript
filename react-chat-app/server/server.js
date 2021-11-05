@@ -19,11 +19,7 @@ app.use(cors())
 app.post("/login", (req, res) => {
     console.log(req.body)
 
-    const possibleUser = users.filter(obj => {
-        return obj.user == req.body.username
-    })
-
-    console.log(possibleUser)
+    const index = users.findIndex(x => x.username === req.body.username)
 
     const loginId = uuid.v4()
 
@@ -31,9 +27,9 @@ app.post("/login", (req, res) => {
         res.status(400).send({message: "username is empty."}).end()
     } else if (!req.body.password) {
         res.status(400).send({message: "password is empty."}).end()
-    } else if (possibleUser.length > 0){
-        if (possibleUser.password === req.body.password) {
-            logged.push(loginId)
+    } else if (index > -1){
+        if (users[index].password !== req.body.password) {
+            users[index].id = loginId
             res.send(loginId).end()
         } else {
             res.status(400).send({message: "password is invalid."})
@@ -42,10 +38,8 @@ app.post("/login", (req, res) => {
         users.push({
             username: req.body.username,
             password: req.body.password,
+            id: loginId,
         })
-
-        logged.push(loginId)
-
         res.send(loginId).end()
     }
 })
