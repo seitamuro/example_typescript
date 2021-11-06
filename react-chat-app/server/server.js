@@ -5,12 +5,11 @@ const http = require("http").Server(app)
 const bodyParser = require("body-parser")
 const io = require("socket.io")(http, {
     cors: {
-        origin: "*:*",
+        origin: "*",
     }
 })
 
 var users = []
-var logged = []
 
 app.use(bodyParser.json())
 
@@ -28,7 +27,7 @@ app.post("/login", (req, res) => {
     } else if (!req.body.password) {
         res.status(400).send({message: "password is empty."}).end()
     } else if (index > -1){
-        if (users[index].password !== req.body.password) {
+        if (users[index].password === req.body.password) {
             users[index].id = loginId
             res.send(loginId).end()
         } else {
@@ -47,6 +46,20 @@ app.post("/login", (req, res) => {
 
 io.on("connection", socket => {
     console.log("connected")
+
+    socket.on("validation", user => {
+        const index = users.findIndex(x => x.username == user.username)
+
+        if (index > -1){
+            if (user.id == users[index].id) {
+                socket.emit("approve", "welcome")
+            } else {
+                socket.emit("error", "your id is invalid.")
+            }
+        } else {
+            socket.emit("error", "your username is invalid.")
+        }
+    })
 
     socket.on("disconnect", () => {
         console.log("disconnection")

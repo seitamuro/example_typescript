@@ -12,20 +12,17 @@ const LoginProvider = (props) => {
 
 
     const login = () => {
-        if (!password) {
-            setPassword("")
-        } else {
-            setPassword(`${crypto.createHash("md5").update(password).digest("hex")}`)
+        if (password) {
+            axios.post("http://localhost:3001/login", {
+                username: username,
+                password: crypto.createHash("md5").update(password).digest("hex"),
+            })
+            .then(response => {
+                console.log(`success ${response.data}`)
+                setLoginId(response.data)
+            })
+            .catch(error => {console.log(`failed ${error.response.data.message}`)})
         }
-        axios.post("http://localhost:3001/login", {
-            username: username,
-            password: password,
-        })
-        .then(response => {
-            console.log(`success ${response.data}`)
-            setLoginId(response.data)
-        })
-        .catch(error => {console.log(`failed ${error.response.data.message}`)})
     }
 
     if (!loginId) {
@@ -40,7 +37,7 @@ const LoginProvider = (props) => {
         )
     } else {
         return (
-            <UserContextProvider value={{id: loginId}}>
+            <UserContextProvider value={{username: username, id: loginId}}>
                 {props.children}
             </UserContextProvider>
         )
