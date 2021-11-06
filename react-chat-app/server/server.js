@@ -10,6 +10,7 @@ const io = require("socket.io")(http, {
 })
 
 var users = []
+var chats = {}
 
 app.use(bodyParser.json())
 
@@ -47,6 +48,14 @@ app.post("/login", (req, res) => {
 io.on("connection", socket => {
     console.log("connected")
 
+    socket.on("message", data => {
+        chats[data.room].push({username: data.user.username,message: data.message})
+
+        io.to(data.room).emit("chat", {username: data.user.username, message: data.message})
+
+        console.log(`${data.message}`)
+    })
+
     socket.on("validation", user => {
         const index = users.findIndex(x => x.username == user.username)
 
@@ -58,6 +67,18 @@ io.on("connection", socket => {
             }
         } else {
             socket.emit("error", "your username is invalid.")
+        }
+    })
+
+    socket.on("enter", room => {
+        console.log("enter")
+        socket.join(room)
+
+        if (!chats[room]) {
+            chats[room] = []
+            socket.emit("chat-init", [])
+        } else {
+            socket.emit("chat-init", chats[room])
         }
     })
 
