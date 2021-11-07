@@ -1,7 +1,71 @@
 import { Box, Grid, VStack, Text, Code, Link, Flex, Button, SimpleGrid } from "@chakra-ui/react"
+import { AspectRatio, Image, Badge } from "@chakra-ui/react";
+import { FaStar } from "react-icons/fa";
 
 import { ColorModeSwitcher } from "./ColorModeSwitcher";
 import { Logo } from "./Logo"
+
+const AirbnbExample = () => {
+  const property = {
+    imageUrl: "https://bit.ly/2z4KKcF",
+    imageAlt: "Rear view of modern home with pool",
+    beds: 3,
+    baths: 2,
+    title: "Modern home in city center in the heart of historic Los Angles",
+    formattedPrice: "$1,900.000",
+    reviewCount: 34,
+    rating: 4,
+  }
+
+  return (
+    <Box maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden">
+      <Image src={property.imageUrl} alt={property.imageAlt} />
+      <Box p="6">
+        <Box display="flex" alignItems="baseline">
+          <Badge borderRadius="full" px="2" colorScheme="teal">
+            New
+          </Badge>
+          <Box
+            color="gray.500"
+            fontWeight="semibold"
+            letterSpacing="wide"
+            fontSize="xs"
+            textTransform="uppercase"
+            ml="2"
+          >
+            {property.beds} beds &bull; {property.baths} baths
+          </Box>
+        </Box>
+
+        <Box
+          mt="1"
+          fontWeight="semibold"
+          as="h4"
+          lineHeight="tight"
+          isTruncated
+          >
+            {property.title}
+          </Box>
+
+          <Box display="flex" mt="2" alignItems="center">
+            {
+              Array(5)
+                .fill("")
+                .map((_, i) => (
+                  <FaStar
+                    key={i}
+                    color={i < property.rating ? "teal.500" : "gray.300"}
+                  />
+                ))
+            }
+          <Box as="span" ml="2" color="gray.600" fontSize="sn">
+            {property.reviewCount} reviews
+          </Box>
+        </Box>
+      </Box>
+    </Box>
+  )
+}
 
 function App() {
   return (
@@ -123,6 +187,30 @@ function App() {
         >??</Box>
       </Box>
 
+      <AspectRatio maxW="560px" ratio="1" backgroundColor="gray.600">
+        <iframe
+          title="naruto"
+          src="https://www.youtube.com/embed/QhBnZ6NPOY0"
+          allowFullScreen
+        />
+      </AspectRatio>
+
+      <AspectRatio maxW="400px" ratio={4 / 3}>
+        <Image src="https://bit.ly/naruto-sage" alt="naruto" objectFit="cover" />
+      </AspectRatio>
+
+      <AspectRatio ratio={16 / 9}>
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3963.952912260219!2d3.375295414770757!3d6.5276316452784755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b8b2ae68280c1%3A0xdc9e87a367c3d9cb!2sLagos!5e0!3m2!1sen!2sng!4v1567723392506!5m2!1sen!2sng"
+          alt="demo"
+        />
+      </AspectRatio>
+
+      <Box bg="tomato" v="100%" p="4" color="white">
+        This is the Box
+      </Box>
+
+      <AirbnbExample />
     </>
   );
 }
