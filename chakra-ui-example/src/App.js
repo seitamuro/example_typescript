@@ -1,6 +1,6 @@
 import { Box, Grid, VStack, Text, Code, Link, Flex, Button, SimpleGrid, GridItem } from "@chakra-ui/react"
 import { AspectRatio, Image, Badge, Center, Square, Circle, HStack } from "@chakra-ui/react";
-import { Container, Spacer, Heading } from "@chakra-ui/react"
+import { Container, Spacer, Heading, Wrap, WrapItem } from "@chakra-ui/react"
 import { FaPhone, FaStar } from "react-icons/fa";
 
 import { ColorModeSwitcher } from "./ColorModeSwitcher";
@@ -346,6 +346,56 @@ function App() {
           <Box bg="tomato" height="80px" />
           <Box bg="tomato" height="80px" />
         </SimpleGrid>
+      </Box>
+
+      <Box p="6">
+        <Wrap spacing="30px" align="center">
+          <WrapItem>
+            <Center w="180px" h="80px" bg="red.200">
+              Box 1
+            </Center>
+          </WrapItem>
+          <WrapItem>
+            <Center w="180px" h="80px" bg="green.200">
+              Box 2
+            </Center>
+          </WrapItem>
+          <WrapItem>
+            <Center w="180px" h="80px" bg="tomato">
+              Box 3
+            </Center>
+          </WrapItem>
+          <WrapItem>
+            <Center w="180px" h="80px" bg="blue.200">
+              Box 4
+            </Center>
+          </WrapItem>
+        </Wrap>
+      </Box>
+
+      <Box p="6">
+        <Wrap spacing="30px" justify="center">
+          <WrapItem>
+            <Center w="180px" h="80px" bg="red.200">
+              Box 1
+            </Center>
+          </WrapItem>
+          <WrapItem>
+            <Center w="180px" h="80px" bg="green.200">
+              Box 2
+            </Center>
+          </WrapItem>
+          <WrapItem>
+            <Center w="180px" h="80px" bg="tomato">
+              Box 3
+            </Center>
+          </WrapItem>
+          <WrapItem>
+            <Center w="180px" h="80px" bg="blue.200">
+              Box 4
+            </Center>
+          </WrapItem>
+        </Wrap>
       </Box>
     </>
   );
