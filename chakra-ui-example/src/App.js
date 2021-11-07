@@ -1,6 +1,6 @@
 import { Box, Grid, VStack, Text, Code, Link, Flex, Button, SimpleGrid } from "@chakra-ui/react"
-import { AspectRatio, Image, Badge } from "@chakra-ui/react";
-import { FaStar } from "react-icons/fa";
+import { AspectRatio, Image, Badge, Center, Square, Circle, HStack } from "@chakra-ui/react";
+import { FaPhoenixFramework, FaPhone, FaStar } from "react-icons/fa";
 
 import { ColorModeSwitcher } from "./ColorModeSwitcher";
 import { Logo } from "./Logo"
@@ -206,11 +206,35 @@ function App() {
         />
       </AspectRatio>
 
-      <Box bg="tomato" v="100%" p="4" color="white">
+      <Box bg="tomato" w="100%" p="4" color="white">
         This is the Box
       </Box>
 
       <AirbnbExample />
+
+      <Center bg="tomato" h="100px" color="white">
+        This is the Center
+      </Center>
+
+      <HStack>
+        <Center w="40px" h="40px" bg="tomato" color="white">
+          <FaPhone />
+        </Center>
+        <Center w="40px" h="40px" bg="tomato" color="white">
+          <Box as="span" fontWeight="bold" fontSize="lg">
+            1
+          </Box>
+        </Center>
+      </HStack>
+
+      <HStack>
+        <Circle size="40px" bg="tomato" color="white">
+          <FaPhone />
+        </Circle>
+        <Square size="40px" bg="purple.700" color="white">
+          <FaPhone />
+        </Square>
+      </HStack>
     </>
   );
 }
