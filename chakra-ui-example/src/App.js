@@ -1,5 +1,6 @@
 import { Box, Grid, VStack, Text, Code, Link, Flex, Button, SimpleGrid } from "@chakra-ui/react"
 import { AspectRatio, Image, Badge, Center, Square, Circle, HStack } from "@chakra-ui/react";
+import { Container } from "@chakra-ui/react"
 import { FaPhoenixFramework, FaPhone, FaStar } from "react-icons/fa";
 
 import { ColorModeSwitcher } from "./ColorModeSwitcher";
@@ -235,6 +236,20 @@ function App() {
           <FaPhone />
         </Square>
       </HStack>
+
+      <Container>
+        There are many benefits to a joint design and development system. Not only
+        does it bring benefits to the design team, but it also brings benefits to
+        engineering teams. It makes sure that our experiences have a consistent look
+        and feel, not just in our design specs, but in production
+      </Container>
+
+      <Container maxW="xl" centerContent>
+        <Box padding="4" bg="gray.100" max="3xl">
+          There are many benefits to a joint design and development system. Not only
+          does it bring benefits to the design team.
+        </Box>
+      </Container>
     </>
   );
 }
