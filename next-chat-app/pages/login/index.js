@@ -1,3 +1,6 @@
+import { useState } from "react"
+import Router from "next/router"
+
 import {
     Center,
     Box,
@@ -9,10 +12,18 @@ import {
     Button,
     HStack,
     FormLabel,
-    FormControl
+    FormControl,
+    usePanGesture
 } from "@chakra-ui/react"
 
+const doLogin = (username, password) => {
+    console.log(`username: ${username} password: ${password}`)
+}
+
 const Login = () => {
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
+
     return (
         <Center m="3">
             <FormControl p="15px" borderWidth="1px" w="60%">
@@ -20,13 +31,13 @@ const Login = () => {
                     <FormLabel fontSize="4xl">ログイン</FormLabel>
                 </Center>
                 <FormLabel>ユーザー名:</FormLabel>
-                <Input placeholder="ユーザー名" />
+                <Input placeholder="ユーザー名" onChange={e => setUsername(e.target.value)}/>
                 <FormLabel pt="10px">パスワード:</FormLabel>
-                <Input placeholder="パスワード" />
+                <Input placeholder="パスワード" onChange={e => setPassword(e.target.value)}/>
                 <Flex w="100%" pt="20px">
-                    <Button>ログイン</Button>
+                    <Button onClick={() => doLogin(username, password)}>ログイン</Button>
                     <Spacer />
-                    <Button>戻る</Button>
+                    <Button onClick={() => Router.push("/")}>戻る</Button>
                 </Flex>
             </FormControl>
         </Center>
