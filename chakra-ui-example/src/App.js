@@ -331,10 +331,22 @@ function App() {
         <GridItem colSpan="4" bg="tomato" />
       </Grid>
 
-      <Grid templateColumns="repeat(5, 1fr)" gap="4">
-        <GridItem colSpan="2" h="10" bg="tomato" />
-        <GridItem colStart="4" colEnd="6" h="10" bg="papayawhip" />
-      </Grid>
+      <Box p="2" borderWidth="3px">
+        <Grid templateColumns="repeat(5, 1fr)" gap="4">
+          <GridItem colSpan="2" h="10" bg="tomato" />
+          <GridItem colStart="4" colEnd="6" h="10" bg="papayawhip" />
+        </Grid>
+      </Box>
+
+      <Box p="2">
+        <SimpleGrid columns="2" spacing="10">
+          <Box bg="tomato" height="80px" />
+          <Box bg="tomato" height="80px" />
+          <Box bg="tomato" height="80px" />
+          <Box bg="tomato" height="80px" />
+          <Box bg="tomato" height="80px" />
+        </SimpleGrid>
+      </Box>
     </>
   );
 }
