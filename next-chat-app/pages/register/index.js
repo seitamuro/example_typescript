@@ -18,9 +18,8 @@ import {
 import axios from "axios"
 
 // loginデータをポストする
-const doLogin = (username, password) => {
-    console.log(`username: ${username} password: ${password}`)
-    axios.post("http://localhost:3001/login", {username: username, password: password})
+const doRegister = (username, password) => {
+    axios.post("http://localhost:3001/register", {username: username, password: password})
         .then(res => {
         console.log(`${res.data}`)
     })
@@ -42,9 +41,9 @@ const Login = () => {
                 <FormLabel pt="10px">パスワード:</FormLabel>
                 <Input placeholder="パスワード" onChange={e => setPassword(e.target.value)}/>
                 <Flex w="100%" pt="20px">
-                    <Button onClick={() => doLogin(username, password)}>ログイン</Button>
+                    <Button onClick={() => doRegister(username, password)}>登録</Button>
                     <Spacer />
-                    <Button onClick={() => Router.push("/")}>戻る</Button>
+                    <Button onClick={() => Router.push("/")}>キャンセル</Button>
                 </Flex>
             </FormControl>
         </Center>
