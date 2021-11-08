@@ -21,8 +21,11 @@ import axios from "axios"
 const doLogin = (username, password) => {
     console.log(`username: ${username} password: ${password}`)
     axios.post("http://localhost:3001/login", {username: username, password: password})
-        .then(res => {
+    .then(res => {
         console.log(`${res.data}`)
+    })
+    .catch(err => {
+        console.log(`${err.response.data}`)
     })
 }
 

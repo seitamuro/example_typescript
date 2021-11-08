@@ -22,16 +22,29 @@ exports.isExists = (username) => {
     return getUserIndex(username) > -1
 }
 
-exports.login = (username, password) => {
-    const index = getUserIndex(username)
-    const isLogin = users[index].password == password
+exports.whyRejectLogin = (username, password) => {
+    if (!exports.isExists(username)) {
+        return `${username} is not exists.`
+    }
 
-    if (isLogin) {
-        users[index].id = uuid.v4()
-        return users[index].id
+    const index = getUserIndex(username)
+
+    if (users[index].password != password) {
+        return "password is incorrect."
     }
 
     return ""
+}
+
+exports.login = (username, password) => {
+    if (exports.whyRejectLogin(username, password) != "") {
+        return false
+    }
+
+    const index = getUserIndex(username)
+
+    users[index].id = uuid.v4()
+    return users[index].id
 }
 
 // ログイン中かを判定
