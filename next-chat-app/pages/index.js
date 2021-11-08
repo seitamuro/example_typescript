@@ -10,8 +10,14 @@ import {
   Button
 } from "@chakra-ui/react"
 
+// ログインページへ飛ぶ
 const goLoginPage = () => {
   Router.push("/login")
+}
+
+// 新規登録ページへ飛ぶ
+const goRegisterPage = () => {
+  Router.push("/register")
 }
 
 export default function Home() {
@@ -25,7 +31,7 @@ export default function Home() {
         <Center pr="3">
           <HStack>
             <Button onClick={goLoginPage}>ログイン</Button>
-            <Button>新規登録</Button>
+            <Button onClick={goRegisterPage}>新規登録</Button>
           </HStack>
         </Center>
       </Flex>

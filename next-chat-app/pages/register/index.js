@@ -35,7 +35,7 @@ const Login = () => {
         <Center m="3">
             <FormControl p="15px" borderWidth="1px" w="60%">
                 <Center>
-                    <FormLabel fontSize="4xl">ログイン</FormLabel>
+                    <FormLabel fontSize="4xl">新規登録</FormLabel>
                 </Center>
                 <FormLabel>ユーザー名:</FormLabel>
                 <Input placeholder="ユーザー名" onChange={e => setUsername(e.target.value)}/>
