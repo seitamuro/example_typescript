@@ -20,8 +20,11 @@ import axios from "axios"
 // loginデータをポストする
 const doRegister = (username, password) => {
     axios.post("http://localhost:3001/register", {username: username, password: password})
-        .then(res => {
+    .then(res => {
         console.log(`${res.data}`)
+    })
+    .catch(err => {
+        console.log(`${err.response.data}`)
     })
 }
 
