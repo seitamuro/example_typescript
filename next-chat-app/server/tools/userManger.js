@@ -14,11 +14,17 @@ exports.isExists = (username) => {
 }
 
 exports.registerUser = (username, password) => {
+    if (exports.isExists(username)) {
+        return false
+    }
+
     users.push({
         username: username,
         password: password,
         id: ""
     })
+
+    return true
 }
 
 exports.login = (username, password) => {

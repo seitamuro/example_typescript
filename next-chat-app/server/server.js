@@ -18,11 +18,8 @@ const login = require("./routes/login")
 app.use("/login", login)
 
 // ユーザー登録
-app.post("/register", (req, res) => {
-    console.log(`${req.body.username} ${req.body.password}`)
-
-    return registerUser(req.body.username, req.body.password)
-})
+const register = require("./routes/register")
+app.use("/register", register)
 
 // サーバー起動
 http.listen(3001, "localhost", () => {
