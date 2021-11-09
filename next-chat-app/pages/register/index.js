@@ -1,5 +1,5 @@
 import { useState } from "react"
-import Router from "next/router"
+import router from "next/router"
 
 import {
     Center,
@@ -22,6 +22,7 @@ const doRegister = (username, password) => {
     axios.post("http://localhost:3001/register", {username: username, password: password})
     .then(res => {
         console.log(`${res.data}`)
+        router.push("/login")
     })
     .catch(err => {
         console.log(`${err.response.data}`)

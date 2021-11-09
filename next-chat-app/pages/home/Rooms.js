@@ -7,8 +7,6 @@ import {
 const Rooms = (props) => {
     return (
         <Box
-            minHeight={window.innerHeight}
-            maxHeight={window.innerHeight}
             bg="red.500"
             overflowY="scroll"
             className="rooms"

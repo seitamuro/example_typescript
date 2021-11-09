@@ -9,8 +9,6 @@ const Chats = (props) => {
     return (
         <VStack
             spacing="0"
-            minHeight={window.innerHeight}
-            maxHeight={window.innerHeight}
             {...props}
         >
             <Box
@@ -30,7 +28,7 @@ const Chats = (props) => {
             >
                 Chats
             </Box>
-            <Box h="10%" bg="whiteAlpha.500">
+            <Box h="10%" bg="whiteAlpha.500" minHeight="100px">
                 Send Form
             </Box>
         </VStack>

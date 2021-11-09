@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 
 import {
     Flex,
-    Box
+    Heading
 } from "@chakra-ui/react"
 import axios from "axios"
 
@@ -11,6 +11,13 @@ import { Chats } from "./Chats"
 
 const Home = () => {
     const [username, setUsername] = useState("")
+    const [height, setHeight] = useState(100)
+
+    useEffect(() => {
+        if (window !== "undefined") {
+            setHeight(window.innerHeight)
+        }
+    }, [setHeight])
 
     useEffect(() => {
         axios.create({withCredentials: true})
@@ -25,10 +32,13 @@ const Home = () => {
     }, [setUsername])
 
     return (
-        <Flex>
-            <Rooms w="30%">test</Rooms>
-            <Chats w="70%"></Chats>
-        </Flex>
+        <>
+            <Heading>Chat</Heading>
+            <Flex>
+                <Rooms w="30%" minHeight={height} maxHeight={height}>test</Rooms>
+                <Chats w="70%" minHeight={height} maxHeight={height}></Chats>
+            </Flex>
+        </>
     )
 }
 

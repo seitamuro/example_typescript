@@ -21,6 +21,7 @@ const doLogin = (username, password, setCookie) => {
     .then(res => {
         console.log(`${res.data}`)
         setCookie("login_id", res.data)
+        router.push("/home")
     })
     .catch(err => {
         console.log(`${err.message}`)
