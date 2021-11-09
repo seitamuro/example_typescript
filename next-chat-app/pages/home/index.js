@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react"
 
 import {
-    Text
+    Text,
+    Flex,
+    Box
 } from "@chakra-ui/react"
 import axios from "axios"
 
@@ -21,10 +23,86 @@ const Home = () => {
     }, [setUsername])
 
     return (
-        <>
-            <Text>Home</Text>
-            <Text>Username: {username}</Text>
-        </>
+        <Flex>
+            <Box w="30%" minHeight={window.innerHeight} maxHeight={window.innerHeight} bg="red.500" overflowY="scroll" className="rooms"
+                sx={{
+                    "&::-webkit-scrollbar": {
+                        display: "none",
+                    },
+                    "&.rooms": {
+                        "-ms-overflow-style": "none",
+                        "scrollbar-width": "none"
+                    }
+                }}
+            >
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                aldkfjalksdfjl<br></br>
+                88888888888888888<br></br>
+            </Box>
+            <Box w="70%" bg="blue.500" minHeight={window.innerHeight} maxHeight={window.innerHeight}>Chats</Box>
+        </Flex>
     )
 }
 
