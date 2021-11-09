@@ -4,7 +4,8 @@
 const uuid = require("uuid")
 const { sanitize, willSanitize } = require("../tools/utils")
 
-var users = []
+var users = [] // 登録されているユーザー
+var active = {} // ログイン中のユーザー
 
 function getUserIndex(username) {
     return users.findIndex(x => x.username == username)
@@ -42,9 +43,17 @@ exports.login = (username, password) => {
     }
 
     const index = getUserIndex(username)
+    const id = uuid.v4()
 
-    users[index].id = uuid.v4()
-    return users[index].id
+    if (active[id]) {
+        return "uuid is used. please login again."
+    }
+
+    active[id] = {
+        username: users[index].username
+    }
+
+    return id
 }
 
 // ログイン中かを判定
@@ -105,4 +114,8 @@ exports.registerUser = (username, password) => {
     })
 
     return true
+}
+
+exports.getLoggedInUser = (id) => {
+    return active[id]
 }

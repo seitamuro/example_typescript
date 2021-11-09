@@ -9,7 +9,7 @@ module.exports = (req, res) => {
     const id = login(username, password)
     console.log(`login id is ${id}`)
     if (id) {
-        res.send(`login success: ${id}`)
+        res.send(`${id}`)
     } else {
         res.status(400).send(whyRejectLogin(username, password))
     }

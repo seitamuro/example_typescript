@@ -3,29 +3,27 @@ import Router from "next/router"
 
 import {
     Center,
-    Box,
-    Text,
-    VStack,
     Input,
-    Flex,
-    Spacer,
     Button,
-    HStack,
     FormLabel,
     FormControl,
-    usePanGesture
+    Flex,
+    Spacer,
 } from "@chakra-ui/react"
 import axios from "axios"
+import router from "next/router"
+import { useCookies } from "react-cookie"
 
 // loginデータをポストする
-const doLogin = (username, password) => {
+const doLogin = (username, password, setCookie) => {
     console.log(`username: ${username} password: ${password}`)
     axios.post("http://localhost:3001/login", {username: username, password: password})
     .then(res => {
         console.log(`${res.data}`)
+        setCookie("login_id", res.data)
     })
     .catch(err => {
-        console.log(`${err.response.data}`)
+        console.log(`${err.message}`)
     })
 }
 
@@ -33,6 +31,7 @@ const doLogin = (username, password) => {
 const Login = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [cookie, setCookie, removeCookie] = useCookies()
 
     return (
         <Center m="3">
@@ -45,7 +44,7 @@ const Login = () => {
                 <FormLabel pt="10px">パスワード:</FormLabel>
                 <Input placeholder="パスワード" onChange={e => setPassword(e.target.value)}/>
                 <Flex w="100%" pt="20px">
-                    <Button onClick={() => doLogin(username, password)}>ログイン</Button>
+                    <Button onClick={() => doLogin(username, password, setCookie)}>ログイン</Button>
                     <Spacer />
                     <Button onClick={() => Router.push("/")}>戻る</Button>
                 </Flex>
