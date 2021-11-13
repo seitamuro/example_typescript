@@ -43,9 +43,9 @@ const Home = () => {
     return (
         <Box maxH={height} minH={height} bg="green.300">
                 <Header w="100%" />
-                <Flex maxH="100vh" bg="gray.300">
-                    <Rooms w="30%" h="100vh"></Rooms>
-                    <Chats w="70%" h="full"></Chats>
+                <Flex>
+                    <Rooms w="30%" maxH={height-100} minH={height-100}></Rooms>
+                    <Chats w="70%" maxH={height-100} minH={height-100}></Chats>
                 </Flex>
         </Box>
     )

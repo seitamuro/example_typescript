@@ -28,7 +28,7 @@ const Chats = (props) => {
             >
                 Chats
             </Box>
-            <Box h="10%" bg="whiteAlpha.500" minHeight="100px">
+            <Box h="10%" w="100%" bg="whiteAlpha.500" minHeight="100px">
                 Send Form
             </Box>
         </VStack>
