@@ -106,3 +106,28 @@ npm test
 ```javascript
 npm test -- --coverage
 ```
+
+`coverage`オプションは以下のように`package.json`を編集することで自動的に実行することができる｡
+
+```json
+"jest": {
+    "collectCoverage": true
+}
+```
+
+もしくは
+
+```json
+"scripts": {
+    "test": "jest --coverage"
+}
+```
+
+`coverage`オプションはコマンドライン上の表ではなくhtml上に表示することもできる｡これは以下のように`package.json`に書くことで指定することができる｡
+
+```json
+"jest": {
+    "collectCoverage": true,
+    "coverageReporters": ["html"]
+}
+```
