@@ -7,3 +7,11 @@
     scrollbar-width: none;
     overflow-y: scroll;
 }
+
+.my-message {
+    background-color: greenyellow;
+}
+
+.others-message {
+    background-color: white;
+}

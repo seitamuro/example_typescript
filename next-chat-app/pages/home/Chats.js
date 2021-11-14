@@ -1,19 +1,13 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 
 import {
     Box,
     VStack
 } from "@chakra-ui/react"
 
+import { Message } from "./Message"
+
 const Chats = (props) => {
-    const [height, setHeight] = useState("")
-
-    useEffect(() => {
-        if (window !== "undefined") {
-            setHeight(window.innerHeight)
-        }
-    })
-
     return (
         <VStack
             spacing="0"
@@ -25,7 +19,9 @@ const Chats = (props) => {
                 h="90%"
                 className="chats hideScrollBar"
             >
-                Chats
+                {props.messages && props.messages.map((msg, index) => (
+                    <Message who={msg.who}>{msg.message}</Message>
+                ))}
             </Box>
             <Box h="10%" w="100%" bg="whiteAlpha.500" minHeight="100px">
                 Send Form
