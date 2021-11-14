@@ -21,9 +21,7 @@ const Rooms = (props) => {
             }}
             {...props}
         >
-            aldkfjalksdfjl<br></br>
-            aldkfjalksdfjl<br></br>
-            88888888888888888<br></br>
+            Rooms
         </Box>
     )
 }

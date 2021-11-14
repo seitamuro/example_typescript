@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 
 import {
     Box,
@@ -6,6 +6,14 @@ import {
 } from "@chakra-ui/react"
 
 const Chats = (props) => {
+    const [height, setHeight] = useState("")
+
+    useEffect(() => {
+        if (window !== "undefined") {
+            setHeight(window.innerHeight)
+        }
+    })
+
     return (
         <VStack
             spacing="0"
@@ -15,16 +23,7 @@ const Chats = (props) => {
                 bg="blue.500"
                 w="100%"
                 h="90%"
-                className="chats"
-                sx={{
-                    "&::-webkit-scrollbar": {
-                        display: "none",
-                    },
-                    "&.rooms": {
-                        "-ms-overflow-style": "none",
-                        "scrollbar-width": "none"
-                    }
-                }}
+                className="chats hideScrollBar"
             >
                 Chats
             </Box>
