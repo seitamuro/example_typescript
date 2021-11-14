@@ -6,15 +6,36 @@ import {
     VStack,
 } from "@chakra-ui/react"
 import axios from "axios"
+import io from "socket.io-client"
+import { useCookies } from "react-cookie"
 
 import { Rooms } from "./Rooms"
 import { Chats } from "./Chats"
 import { Header } from "../../components/Header"
 
+const createSocket = (user_id) => {
+    const socket = io.connect("http://localhost:3001")
+
+    socket.emit("send-message", {
+        user_id: user_id,
+        message: "test message"
+    })
+
+    return socket
+}
+
 const Home = () => {
     const [username, setUsername] = useState("")
     const [height, setHeight] = useState(100)
     const [width, setWidth] = useState(100)
+    const [socket, setSocket] = useState(null)
+    const [cookie] = useCookies()
+
+    useEffect(() => {
+        const newSocket = createSocket(cookie.login_id)
+        setSocket(newSocket)
+        return () => newSocket.close()
+    }, [setSocket])
 
     useEffect(() => {
         if (window !== "undefined") {
@@ -36,7 +57,7 @@ const Home = () => {
             setUsername(`${res.data}`)
         })
         .catch(err => {
-            console.log(`${err.response.data}`)
+            console.log(`${err}`)
         })
     }, [setUsername])
 

@@ -40,3 +40,7 @@ app.use("/getUsername", getUsername)
 http.listen(3001, "localhost", () => {
     console.log("Listening on localhost:3001")
 })
+
+// ソケットの処理
+const setupSocket = require("./socket")
+io.on("connection", setupSocket)
