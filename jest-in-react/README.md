@@ -39,3 +39,38 @@ describe("Button component", () => {
     })
 })
 ```
+
+# Snapshot testing の流れ
+
+`react-test-renderer`は`toMatchSnapshot`関数を提供している｡
+Snapshot testingは実際のDOMを生成してテストを行うのではなく､JavaScriptオブジェクトとの
+スナップショットを比較をしている｡`react-test-renderer`はReact ComponentをJavaScriptオブジェクトに
+変換するためのライブラリである｡
+
+`toMatchSnapshot`関数は以下のような動作をする｡
+
+1. 初めて実行されたとき､スナップショットを作成する｡
+2. 保存されたスナップショットが存在すればそれと比較する｡
+
+そのため､頻繁にUIが変更される場合はSnapshot testingは避けたほうがよい｡
+
+# React componentの動作チェック
+
+以下のような`Button`コンポーネントがあるとする｡
+
+```javascript
+<button onClick={this.handleClick}>
+    {props.text}
+</button>
+```
+
+このようなオブジェクトがユーザーにクリックされたときの動作のテストを行うとする｡
+このとき､テストは､以下のようにボタンを取得して行う｡
+
+```javascript
+const button = instance.findByType("button")
+
+button.props.onClick()
+button.props.children
+```
+
