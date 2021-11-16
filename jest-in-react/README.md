@@ -68,9 +68,16 @@ Snapshot testingは実際のDOMを生成してテストを行うのではなく�
 このとき､テストは､以下のようにボタンを取得して行う｡
 
 ```javascript
+const component = create(<Button text="SUBSCRIBE TO BASIC" />)
+const instance = component.root
 const button = instance.findByType("button")
 
 button.props.onClick()
 button.props.children
 ```
 
+# Mocking
+
+**Mocking** とは関数やAPIの動作を擬似的に行うためのテストパターンの1つである｡
+テストを行うときに､必ずしもAPIサーバーが正常に動作する､または､望んだフォーマットで応答するとは限らない｡
+これを解決するために利用するのが**Mocking**である｡
