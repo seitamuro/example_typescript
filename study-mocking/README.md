@@ -6,6 +6,34 @@
 npm i jest axios
 ```
 
+# Babelのインストール
+
+デフォルトのJavaScriptコンパイラは`import`によるモジュールのインポートをサポートしていない｡
+そのため､`package.json`で`"type": "module"`を指定しても､`**.spec.js`内で`import`を利用できない｡
+これに対処するためにBabelのインストールと設定を行う｡
+
+はじめにBabelのインストールをおこなう｡
+
+```
+npm i babel-jest @babel/core @babel/preset-env
+```
+
+インストール後､Babelの設定を行う｡Babelの設定は`.babelrc`に書く｡
+
+```
+{
+    "presets": [
+        [
+            "@babel/preset-env", {
+                "targets": {
+                    "node": "current"
+                }
+            }
+        ]
+    ]
+}
+```
+
 # テスト対象のプログラム
 
 `https://jsonplaceholder.typicode.com`からユーザーの情報を取り寄せ､その結果を返す関数である`fetchUsers`を定義している｡
@@ -151,3 +179,68 @@ axiosオブジェクトが呼ばれるたびに行われる処理の内容を記
 2. mockAxios.get.mockResolvedValueOne
 
 getされたときに返す値をセットする｡
+
+# axios-mock-adapter
+
+以下のコマンドを実行し､`axios-mock-adapter`をインストールする｡
+
+```
+npm i axios-mock-adapter
+```
+
+`utils.spec.js`を以下のように書く｡
+
+```javascript
+import axios from "axios"
+import MockAdapter from "axios-mock-adapter"
+
+import { BASE_URL, fetchUsers } from "../utils"
+
+describe("fetchUsers", () => {
+    let mock;
+
+    beforeAll(() => {
+        mock = new MockAdapter(axios)
+    })
+
+    afterEach(() => {
+        mock.reset()
+    })
+
+    describe("when API call is successful", () => {
+        it("should return users list", async () => {
+            const users = [
+                { id: 1, name: "John" },
+                { id: 2, name: "Andrew" },
+            ]
+            mock.onGet(`${BASE_URL}/users`).reply(200, users)
+
+            const result = await fetchUsers()
+
+            expect(mock.history.get[0].url).toEqual(`${BASE_URL}/users`)
+            expect(result.data).toEqual(users)
+        })
+    })
+
+    describe("when API call fails", () => {
+        it("should return empty users list", async () => {
+            mock.onGet(`${BASE_URL}/users`).networkErrorOnce()
+
+            const result = await fetchUsers()
+
+            expect(mock.history.get[0].url).toEqual(`${BASE_URL}/users`)
+            expect(result).toEqual([])
+        })
+    })
+})
+```
+
+以下の内容を行っている｡
+
+1. axiosのインスタンスをMock Adapterで上書きしている｡
+
+`new MockAdapter(axios)`により､axiosのインスタンスをMock Adapterにしている｡
+
+2. getで`${BASE_URL}/users`にアクセスされたときに返す値を設定している｡
+
+`.onGet`関数を利用して次に`axios.get`でアクセスされたときに返す値を指定している｡

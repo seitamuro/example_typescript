@@ -1,37 +1,41 @@
-import mockAxios from "jest-mock-axios"
+import axios from "axios"
+import MockAdapter from "axios-mock-adapter"
 
-import { BASE_URL, fetchUsers } from "./utils"
-
-jest.mock("axios")
+import { BASE_URL, fetchUsers } from "../utils"
 
 describe("fetchUsers", () => {
+    let mock;
+
+    beforeAll(() => {
+        mock = new MockAdapter(axios)
+    })
+
     afterEach(() => {
-        mockAxios.reset()
+        mock.reset()
     })
 
     describe("when API call is successful", () => {
-        it("should return users list", () => {
+        it("should return users list", async () => {
             const users = [
                 { id: 1, name: "John" },
-                { id: 2, name: "Andrew"}
+                { id: 2, name: "Andrew" },
             ]
-            mockAxios.get.mockResolvedValueOnce(users)
+            mock.onGet(`${BASE_URL}/users`).reply(200, users)
 
             const result = await fetchUsers()
 
-            expect(mockAxios.get).toHaveBeenCalledWith(`${BASE_URL}/users`)
-            expect(result).toEqual(users)
+            expect(mock.history.get[0].url).toEqual(`${BASE_URL}/users`)
+            expect(result.data).toEqual(users)
         })
     })
 
     describe("when API call fails", () => {
-        it("should return empty users list.", () => {
-            const message = "Network Error"
-            mockAxios.get.mockResolvedValueOnce(new Error(message))
+        it("should return empty users list", async () => {
+            mock.onGet(`${BASE_URL}/users`).networkErrorOnce()
 
             const result = await fetchUsers()
 
-            expect(mockAxios.get).toHaveBeenCalledWith(`${BASE_URL}/users`)
+            expect(mock.history.get[0].url).toEqual(`${BASE_URL}/users`)
             expect(result).toEqual([])
         })
     })
