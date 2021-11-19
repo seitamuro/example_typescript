@@ -123,3 +123,17 @@ CREATE TABLE account_roles (
       REFERENCES accounts (user_id)
 );
 ```
+
+上記の例では､`account_roles`テーブルは`user_id`カラムと`role_id`カラムで構成されている｡なので､PRIMARY KEYには`user_id`と`role_id`カラムを指定している｡このとき､`PRIMARY KEY (user_id, role_id)`と書くことで､`user_id`と`role_id`をPRIMARY KEYに指定している｡
+
+## DROP
+
+削除するときに利用するコマンド｡
+
+```
+postgres=# DROP DATABASE database_name;
+```
+
+```
+postgres=# DROP TABLE table_name;
+```
