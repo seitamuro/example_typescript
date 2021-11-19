@@ -44,6 +44,16 @@ postgres=# \dt
 
 `\d`はデータベース､`\t`はテーブルを表している｡`\dt`はデータベースのテーブル一覧を表示するコマンド｡
 
+## CREATE DATABASE
+
+データベースの作成をする｡
+
+```
+postgres=# CREATE DATABASE database_name;
+```
+
+セミコロンと大文字にすることを忘れない｡
+
 ## CREATE TABLE
 
 テーブルは以下の構文で生成することができる｡
