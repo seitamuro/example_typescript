@@ -157,3 +157,21 @@ async function parallel() {
 
 parallel()
 ```
+
+# resolveとreject
+
+promiseのresolveは以下のように行う｡
+
+```javascript
+return new Promise((resolve, reject) => {
+    resolve("success!")
+})
+```
+
+rejectは以下のように行う｡
+
+```javascript
+return new Promise((resolve, reject) => {
+    resolve("err!!")
+})
+```
