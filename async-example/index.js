@@ -1,15 +1,32 @@
 function resolveAfter2Seconds() {
+    console.log("starting slow promise")
     return new Promise(resolve => {
         setTimeout(() => {
-            resolve("resolved")
+            resolve("slow")
+            console.log("slow promise is done.")
         }, 2000)
     })
 }
 
-async function asyncCall() {
-    console.log("calling")
-    const result = await resolveAfter2Seconds()
-    console.log(result)
+function resolveAfter1Second() {
+    console.log("starting fast promise")
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve("fast")
+            console.log("fast promise is done")
+        }, 1000)
+    })
 }
 
-asyncCall()
+async function sequentialStart() {
+    console.log("== SEQUENTIAL START ==")
+
+    // 1. Execution gets here almost instantly
+    const slow = await resolveAfter2Seconds()
+    console.log(slow)
+
+    const fast = await resolveAfter1Second()
+    console.log(fast)
+}
+
+sequentialStart()
