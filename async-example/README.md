@@ -83,3 +83,40 @@ async function sequentialStart() {
 
 sequentialStart()
 ```
+
+# 非同期実行
+
+下記の例では､同時に`starting slow promise`と`starting fast promise`が表示され､一秒後に`fast promise is done`､二秒後に`slow`と`slow promise is done`､`fast promise is done`と表示される｡これは､プログラム上では､resolveAfter2Secondsの戻り値が先に表示するようになっているが､非同期的にslowの表示とfastの表示が行われているため､fastの内容が先に表示される｡
+
+```javascript
+function resolveAfter2Seconds() {
+    console.log("starting slow promise")
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve("slow")
+            console.log("slow promise is done.")
+        }, 2000)
+    })
+}
+
+function resolveAfter1Second() {
+    console.log("starting fast promise")
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve("fast")
+            console.log("fast promise is done")
+        }, 1000)
+    })
+}
+
+async function concurrentStart() {
+    console.log("== CONCURRENT START with await ==")
+    const slow = resolveAfter2Seconds()
+    const fast = resolveAfter1Second()
+
+    console.log(await slow)
+    console.log(await fast)
+}
+
+concurrentStart()
+```

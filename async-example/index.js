@@ -18,15 +18,15 @@ function resolveAfter1Second() {
     })
 }
 
-async function sequentialStart() {
-    console.log("== SEQUENTIAL START ==")
+async function concurrentStart() {
+    console.log("== CONCURRENT START with await ==")
+    const slow = resolveAfter2Seconds()
+    const fast = resolveAfter1Second()
 
-    // 1. Execution gets here almost instantly
-    const slow = await resolveAfter2Seconds()
-    console.log(slow)
+    console.log(await slow)
+    console.log(await fast)
 
-    const fast = await resolveAfter1Second()
-    console.log(fast)
+    console.log("hello")
 }
 
-sequentialStart()
+concurrentStart()
