@@ -44,3 +44,20 @@ describe("Testing Express Server", () => {
     })
 })
 ```
+
+# awaitを使う方法
+
+request関数はasyncな関数なので､awaitを利用しなければ値を取得できない(promiseでラップされている｡)
+これに対する単純な解決法は`await`を利用して､promiseのラップを剥がすことである｡
+
+```javascript
+const request = require("supertest")
+const app = require("../server/app")
+
+describe("Testing Express Server", () => {
+    test("It should response the GET method", async () => {
+        const response = await request(app).get("/")
+        expect(response.statusCode).toBe(200)
+    })
+})
+```
