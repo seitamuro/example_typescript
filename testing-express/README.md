@@ -61,3 +61,5 @@ describe("Testing Express Server", () => {
     })
 })
 ```
+
+このテストを行うためには`babel-preset-env`をインストールする必要がある｡
