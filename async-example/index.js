@@ -18,15 +18,13 @@ function resolveAfter1Second() {
     })
 }
 
-async function concurrentStart() {
-    console.log("== CONCURRENT START with await ==")
-    const slow = resolveAfter2Seconds()
-    const fast = resolveAfter1Second()
+async function parallel() {
+    console.log("== PARALLEL with await Promise.all ==")
 
-    console.log(await slow)
-    console.log(await fast)
-
-    console.log("hello")
+    await Promise.all([
+        (async() => console.log(await resolveAfter2Seconds()))(),
+        (async() => console.log(await resolveAfter1Second()))()
+    ])
 }
 
-concurrentStart()
+parallel()
