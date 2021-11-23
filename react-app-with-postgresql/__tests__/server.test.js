@@ -73,7 +73,7 @@ describe("Testing Express Server", () => {
                 "email": "user1@mail.com"
             }
 
-            client.query.mockResolvedValueOnce({ rows })
+            client.query.mockResolvedValueOnce("success")
             const response = await global.agent.post("/adduser", user)
             expect(response.text).toBe("success")
         })
