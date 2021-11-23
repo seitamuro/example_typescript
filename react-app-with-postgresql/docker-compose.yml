@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  postgresql:
+    image: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - ./volume:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    hostname: postgres
+    user: root
+
+  pgadmin4:
+    image: dpage/pgadmin4
+    ports:
+      - 80:80
+    volumes:
+      - ./pgadmin:/var/lib/pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    depends_on:
+      - postgresql
+    hostname: pgadmin4
+
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 172.19.0.0/24
