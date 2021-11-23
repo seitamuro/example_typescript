@@ -220,6 +220,114 @@ describe('outer', () => {
 // test for describe inner 2
 ```
 
+# Mocking
+
+mockを使うことで､実際に機能を実装せずにテストを行う､外部のシステムへのアクセスをせずにテストを行うなどのテストの内容の本質とは関わらない場所を省略することができます｡
+
+mockを行う方法として､テストで使うモック関数を自分で実装する方法と､依存するモジュールの関数を上書きする方法の2つがあります｡
+
+## モックについて
+
+はじめに､モックの基本的な動作について述べる｡モック関数は自分の呼ばれた回数､呼ばれたときに使われた引数などを記憶している｡`forEach`のテストを行っている様子を以下に示す｡
+
+```javascript
+function forEach(items, callback) {
+    for (let index = 0; index < items.length; index++) {
+        callback(items[index])
+    }
+}
+
+describe("Testing forEach function", () => {
+    test("should success", () => {
+        const mockCallback  = jest.fn(x => 42 + x)
+        forEach([0, 1], mockCallback)
+
+        // the number of that the mock function was called
+        expect(mockCallback.mock.calls.length).toBe(2)
+
+        // the first argument of the first call
+        expect(mockCallback.mock.calls[0][0]).toBe(0)
+
+        // the first argument of the second call
+        expect(mockCallback.mock.calls[1][0]).toBe(1)
+
+        // the return value of the first call to the function
+        expect(mockCallback.mock.results[0].value).toBe(42)
+    })
+})
+```
+
+上記の例では､`forEach`関数にわたすコールバック関数をモック関数にし､モック関数が呼ばれた回数､渡された引数などを利用してテストを行っている｡
+
+# 呼ばれた関数をモック関数で定義する
+
+モック関数は返り値を定義することができる｡
+
+```javascript
+test("should success", () => {
+    const myMock = jest.fn()
+
+    expect(myMock()).toBeUndefined()
+
+    myMock.mockReturnValueOnce(10).mockReturnValueOnce("x").mockReturnValue(true)
+
+    expect(myMock()).toBe(10)
+    expect(myMock()).toBe("x")
+    expect(myMock()).toBe(true)
+    expect(myMock()).toBe(true)
+})
+```
+
+`.mockReturnValueOnce`を使うことで､一度だけ指定された値を返し､`.mockReturnValue`を使うことで､指定された値を返すようになる｡
+
+# モジュールをmockingする
+
+モジュールの特定の関数が返す値を指定することができる｡これはモジュールをmockingすることで行える｡
+
+users.js
+```javascript
+const axios = require("axios")
+
+class Users {
+    static all() {
+        return axios.get("/users.json").then(resp => resp.data)
+    }
+}
+
+module.exports = Users
+```
+
+users.test.js
+```javascript
+const axios = require("axios")
+const Users = require("./users")
+
+jest.mock("axios")
+
+test("should fetch users", () => {
+    const users = [{name: "Bob"}]
+    const resp = {data: users}
+    axios.get.mockResolvedValue(resp)
+
+    return Users.all().then(data => expect(data).toEqual(users))
+})
+```
+
+`jest.mock`により､モジュールをmockingし､`関数名.mockResolvedValue`とすることで指定した値を戻り値として返すことができる｡
+
+モック関数は`.mockImplementationOnce`を使うことで一時的にモック関数の動作を定義することができる｡
+
+```javascript
+const myMockFn = jest
+    .fn(cb => cb("default"))
+    .mockImplementationOnce(cb => cb(null, true))
+    .mockImplementationOnce(cb => cb(null, false))
+
+myMockFn((err, val) => console.log(val)) // true
+myMockFn((err, val) => console.log(val)) // false
+myMockFn((val) => console.log(val))      // default
+```
+
 # Tips
 
 ## 特定のテストのみを実行
