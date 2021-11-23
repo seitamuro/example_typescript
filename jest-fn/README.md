@@ -99,3 +99,139 @@ test("the fetch fails with an error", async () => {
     await expect(fetchData()).rejects.toMatch("error")
 })
 ```
+
+# テストごとの準備
+
+テストごとに事前に行わなければならない処理､事後に行わなければならない処理などがある場合がある｡例として､データベースのテストなどがある｡
+これらの処理はまとめておくことができる｡
+
+## beforeEach と afterEach
+
+テスト毎に行わなければならない処理を書く｡
+
+```javascript
+beforeEach(() => {
+    initializeCityDatabase()
+})
+
+afterEach(() => {
+    clearCityDatabase()
+})
+
+test("city database has Vienna", () => {
+    expect(isCity("Vienna")).toBeTruthy()
+})
+
+test("city database has San Juan", () => {
+    expect(isCity("San Juan")).toBeTruthy()
+})
+```
+
+`beforeEach`と`afterEach`は非同期関数を処理することもできる｡
+この場合､テストと同様に処理を行うか､Promise関数をreturnする必要がある｡
+
+# beforeAll と afterAll
+
+テスト全体を通じて一度だけテスト前もしくはテスト後に行う処理がある場合､以下のように定義する｡
+
+```javascript
+beforeAll(() => {
+    initializeCityDatabase()
+})
+
+afterAll(() => {
+    clearCityDatabase()
+})
+
+test("city database has Vienna", () => {
+    expect(isCity("Vienna")).toBeTruthy()
+})
+
+test("city database has San Juan", () => {
+    expect(isCity("San Juan")).toBeTruthy()
+})
+```
+
+## スコープ
+
+`afterEach`や`afterAll`などの関数はスコープを持つ｡これらのテストは`describe`関数ごとにスコープを持つ｡
+
+```javascript
+beforeEach(() => { // すべてのテスト前に実行される
+    return initializeCityDatabase()
+})
+
+test("city database has Vienna", () => {
+    expect(isCity("Vienna")).toBeTruthy()
+})
+
+describe("matching cities to foods", () => {
+    beforeEach(() => { // このdescribe内でのみ実行される
+        return initializeFoodDatabase()
+    })
+
+    test("Vienna <3 veal", () => {
+        expect(isValidCityFoodPair("Vienna", "Wiener Schnitzel")).toBe(true)
+    })
+})
+```
+
+## テストとdescribeの実行順番
+
+以下に示したような順番で処理は行われる｡
+
+```javascript
+describe('outer', () => {
+  console.log('describe outer-a');
+
+  describe('describe inner 1', () => {
+    console.log('describe inner 1');
+    test('test 1', () => {
+      console.log('test for describe inner 1');
+      expect(true).toEqual(true);
+    });
+  });
+
+  console.log('describe outer-b');
+
+  test('test 1', () => {
+    console.log('test for describe outer');
+    expect(true).toEqual(true);
+  });
+
+  describe('describe inner 2', () => {
+    console.log('describe inner 2');
+    test('test for describe inner 2', () => {
+      console.log('test for describe inner 2');
+      expect(false).toEqual(false);
+    });
+  });
+
+  console.log('describe outer-c');
+});
+
+// describe outer-a
+// describe inner 1
+// describe outer-b
+// describe inner 2
+// describe outer-c
+// test for describe inner 1
+// test for describe outer
+// test for describe inner 2
+```
+
+# Tips
+
+## 特定のテストのみを実行
+
+`test.only`を利用することで､`only`のつけられたテストのみを実行することができる｡
+
+```javascript
+test.only("should fail", () => {
+    expect(false).toBe(true)
+})
+
+test("should success", () => {
+    expect(true).toBe(true)
+})
+```
