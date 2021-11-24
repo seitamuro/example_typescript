@@ -2,11 +2,22 @@
 const pg = require("pg")
 const express = require("express")
 const http = require("http")
+const cors = require("cors")
 const bodyParser = require("body-parser")
 
 // create express instance
 const app = express()
 app.use(bodyParser.json())
+app.use(cors({
+    credentials: true,
+    origin: (origin, callback) => {
+        if(!origin || origin.includes("localhost")) {
+            callback(null, true)
+        } else {
+            callback(new Error(`Origin: ${origin} is now allowd`))
+        }
+    }
+}))
 const server = http.createServer(app)
 
 // setup socket

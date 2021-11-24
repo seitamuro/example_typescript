@@ -13,14 +13,10 @@ import {
   Center,
 } from "@chakra-ui/react"
 
+import useUsers from "./hooks/useUsers";
+
 function App() {
-  const [users, setUsers] = useState([
-    {
-      username: "user1",
-      age: 10,
-      email: "user1@mail.com"
-    }
-  ])
+  const [users] = useUsers()
 
   return (
     <Center>
