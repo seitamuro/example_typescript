@@ -343,3 +343,56 @@ test("should success", () => {
     expect(true).toBe(true)
 })
 ```
+
+## useEffectをもつCustom Hookのテストの仕方
+
+Custom Hookを作成した際に､useEffect内でasynchronousな処理(axiosによるfetchなど)を行うことがある｡
+この場合､テスト側で`renderHook`の`waitForNextUpdate`関数を使い､`state`の値が更新されるのを待つ必要がある｡
+
+useFetch.js
+```javascript
+import { useState, useEffect } from "react"
+import axios from "axios"
+
+const useFetch = () => {
+    const [data, setData] = useState([])
+
+    useEffect(() => {
+        axios.get("URL_FOR_RESOURCE")
+        .then(res => {setData(res.data)})
+    }, [])
+
+    return [data]
+}
+
+export default useFetch
+```
+
+useFetch.test.js
+```javascript
+import {renderHook} from "@testing-library/react-hooks"
+
+import axios from "axios"
+
+import useUsers from "./useFetch"
+
+jest.mock("axios")
+
+test("get users from resource", async () => {
+    const response = [
+        {
+            "username": "user1"
+        }
+    ]
+
+    axios.get.mockResolvedValue({"data": response})
+    const {result, waitForNextUpdate} = renderHook(() => useFetch())
+    await waitForNextUpdate()
+    expect(axios.get).toHaveBeenCalledTimes(1)
+    expect(result.current[0]).toEqual(answer)
+})
+```
+
+ここでは､axiosをmockingしている｡その後､`waitForNextUpdate`関数を`await`しstateが
+更新されるのを待ち､更新後に`useFetch`がとってきた値が`mockResolvedValue`で指定したものと
+同じであるかをテストしている｡
