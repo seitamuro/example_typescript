@@ -1,7 +1,7 @@
 // import
 const { Client } = require("pg")
 const request = require("supertest")
-const { app } = require("../server/server")
+const { app } = require("../../server/server")
 const io = require("socket.io-client")
 
 // mocking
@@ -27,7 +27,7 @@ let server
 describe("Testing Express Server", () => {
     let client;
 
-    beforeAll(async done => {
+    beforeAll(done => {
         // setup socket client
         io.mockClear()
         io().on.mockClear()
@@ -47,26 +47,28 @@ describe("Testing Express Server", () => {
         jest.clearAllMocks()
 
         // close express server
-        await server.close(done)
+        await server.close()
     })
 
-    it("get users", async () => {
-        const users = [
-            {
-                age: 10,
-                email: "user1@mail.com",
-                username: "user1",
-            }
-        ]
-        client.query.mockResolvedValueOnce({ rows: users, rowCount: 1})
+    describe("get users", () => {
+        it("should success", async () => {
+            const users = [
+                {
+                    age: 10,
+                    email: "user1@mail.com",
+                    username: "user1",
+                }
+            ]
+            client.query.mockResolvedValueOnce({ rows: users, rowCount: 1})
 
-        const response = await global.agent.get("/users")
-        expect(response.statusCode).toBe(200)
-        expect(JSON.parse(response.text)).toEqual(users)
+            const response = await global.agent.get("/users")
+            expect(response.statusCode).toBe(200)
+            expect(JSON.parse(response.text)).toEqual(users)
+        })
     })
 
     describe("post new user", () => {
-        test("should success", async () => {
+        it("should success", async () => {
             const user = {
                 "username": "user1",
                 "age": 10,
@@ -75,6 +77,16 @@ describe("Testing Express Server", () => {
 
             client.query.mockResolvedValueOnce("success")
             const response = await global.agent.post("/adduser", user)
+            expect(response.text).toBe("success")
+        })
+    })
+
+    describe("delete user", () => {
+        it("should success", async () => {
+            const user_id = 1
+
+            client.query.mockResolvedValueOnce("success")
+            const response = await global.agent.delete("/deluser", user_id)
             expect(response.text).toBe("success")
         })
     })

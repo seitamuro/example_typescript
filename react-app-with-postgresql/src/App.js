@@ -30,7 +30,7 @@ function App() {
         </Thead>
         <Tbody>
           {users.map((i, key) => (
-            <Tr>
+            <Tr key={key}>
               <Td>{i.username}</Td>
               <Td>{i.age}</Td>
               <Td>{i.email}</Td>

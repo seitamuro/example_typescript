@@ -60,6 +60,34 @@ app.post("/adduser", (req, res) => {
         })
 })
 
+app.delete("/deluser", (req, res) => {
+    const user_id = req.body.user_id
+
+    client
+        .query("DELETE FROM users WHERE user_id = $1", [user_id])
+        .then(response => {
+            res.send("success")
+        })
+        .catch(e => {
+            res.send("failed")
+        })
+})
+
+app.post("adduser", (req, res) => {
+    const username = req.body.username
+    const age = req.body.age
+    const email = req.body.email
+
+    client
+        .query("INSERT INTO users(username, age, email) VALUES ($1, $2, $3)", [username, age, email])
+        .then(response => {
+            res.send("success")
+        })
+        .catch(e => {
+            res.send("failed")
+        })
+})
+
 // listening
 server.listen(3001, "localhost", () => {
     console.log("listening on port 3001")
