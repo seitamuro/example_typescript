@@ -9,7 +9,15 @@ const useUsers = () => {
         .then(res => {setUsers(res.data)})
     }, [])
 
-    return [users]
+    const addUser = (user) => {
+        axios.post("http://localhost:3001/adduser", user)
+    }
+
+    const delUser = (user_id) => {
+        axios.delete("http://localhost:3001/deluser", user_id)
+    }
+
+    return [users, addUser, delUser]
 }
 
 export default useUsers

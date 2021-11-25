@@ -7,20 +7,50 @@ import useUsers from "../hooks/useUsers";
 jest.mock("axios")
 
 describe("Testing useUsers", () => {
-    test("get users from server", async () => {
-        const answer = [
-            {
-                "username": "user1",
-                "age": 10,
-                "email": "user1@gmail.com"
-            }
-        ]
+    const answer = [
+        {
+            "username": "user1",
+            "age": 10,
+            "email": "user1@gmail.com"
+        }
+    ]
 
+    test("get users from server", async () => {
         axios.get.mockResolvedValue({"data": answer})
         const {result, waitForNextUpdate} = renderHook(() => useUsers())
         await waitForNextUpdate()
         expect(axios.get).toHaveBeenCalledTimes(1)
-        console.log(`${JSON.stringify(result.current)}`)
         expect(result.current[0]).toEqual(answer)
+    })
+
+    test("post user", async () => {
+        const user = {
+            "username": "user2",
+            "age": 10,
+            "email": "user2@gmail.com"
+        }
+
+        axios.get.mockResolvedValue({"data": answer})
+        axios.post.mockResolvedValue({"data": user})
+        const {result, waitForNextUpdate} = renderHook(() => useUsers())
+        const [users, addUser] = result.current
+        await act(async () => {
+            addUser(user)
+            await waitForNextUpdate()
+            expect(axios.post).toHaveBeenCalledTimes(1)
+        })
+    })
+
+    test("del user", async () => {
+        const user = {}
+
+        axios.get.mockResolvedValue({"data": answer})
+        axios.delete.mockResolvedValue({"data": user})
+        const {result} = renderHook(() => useUsers())
+        const [users, addUser, delUser] = result.current
+        await act(async () => {
+            delUser(1)
+            expect(axios.delete).toHaveBeenCalledTimes(1)
+        })
     })
 })
