@@ -45,12 +45,12 @@ describe("Testing useUsers", () => {
         const user = {}
 
         axios.get.mockResolvedValue({"data": answer})
-        axios.delete.mockResolvedValue({"data": user})
+        axios.post.mockResolvedValue({"data": user})
         const {result} = renderHook(() => useUsers())
         const [users, addUser, delUser] = result.current
         await act(async () => {
             delUser(1)
-            expect(axios.delete).toHaveBeenCalledTimes(1)
+            expect(axios.post).toHaveBeenCalledTimes(1)
         })
     })
 })

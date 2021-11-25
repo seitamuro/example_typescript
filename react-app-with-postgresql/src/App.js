@@ -11,12 +11,14 @@ import {
   TableCaption,
   Flex,
   Center,
+  Button,
 } from "@chakra-ui/react"
+import { DeleteIcon } from "@chakra-ui/icons"
 
 import useUsers from "./hooks/useUsers";
 
 function App() {
-  const [users] = useUsers()
+  const [users, addUser, delUser] = useUsers()
 
   return (
     <Center>
@@ -26,6 +28,7 @@ function App() {
             <Th>ユーザー名</Th>
             <Th>年齢</Th>
             <Th>メールアドレス</Th>
+            <Th></Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -34,6 +37,7 @@ function App() {
               <Td>{i.username}</Td>
               <Td>{i.age}</Td>
               <Td>{i.email}</Td>
+              <Td><Button onClick={() => delUser(i.user_id)}><DeleteIcon /></Button></Td>
             </Tr>
           ))}
         </Tbody>

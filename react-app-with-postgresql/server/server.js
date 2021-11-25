@@ -60,8 +60,10 @@ app.post("/adduser", (req, res) => {
         })
 })
 
-app.delete("/deluser", (req, res) => {
+app.post("/deluser", (req, res) => {
     const user_id = req.body.user_id
+
+    console.log(`delete user ${user_id}`)
 
     client
         .query("DELETE FROM users WHERE user_id = $1", [user_id])

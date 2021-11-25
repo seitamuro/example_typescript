@@ -14,7 +14,10 @@ const useUsers = () => {
     }
 
     const delUser = (user_id) => {
-        axios.delete("http://localhost:3001/deluser", user_id)
+        const data = {
+            "user_id": user_id
+        }
+        axios.post("http://localhost:3001/deluser", data)
     }
 
     return [users, addUser, delUser]
