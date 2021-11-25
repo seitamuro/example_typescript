@@ -50,6 +50,8 @@ app.post("/adduser", (req, res) => {
     const age = req.body.age;
     const email = req.body.email;
 
+    console.log(`add new user: ${username} ${age} ${email}`)
+
     client
         .query("INSERT INTO users(username, age, email) VALUES ($1, $2, $3)", [username, age, email])
         .then(response => {

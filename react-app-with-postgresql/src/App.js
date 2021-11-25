@@ -1,24 +1,35 @@
-import { useState } from "react"
+import { useRef } from "react"
 
 import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
-  TableCaption,
-  Flex,
   Center,
   Button,
+  Input,
 } from "@chakra-ui/react"
-import { DeleteIcon } from "@chakra-ui/icons"
+import { DeleteIcon, AddIcon } from "@chakra-ui/icons"
 
 import useUsers from "./hooks/useUsers";
 
 function App() {
   const [users, addUser, delUser] = useUsers()
+  const username = useRef("")
+  const age = useRef(0)
+  const email = useRef("")
+
+  const postNewUser = () => {
+    const user = {
+      "username": username.current.value,
+      "age": age.current.value,
+      "email": email.current.value
+    }
+
+    addUser(user)
+  }
 
   return (
     <Center>
@@ -40,6 +51,12 @@ function App() {
               <Td><Button onClick={() => delUser(i.user_id)}><DeleteIcon /></Button></Td>
             </Tr>
           ))}
+          <Tr key={null}>
+            <Td><Input placeholder="ユーザー名" size="md" ref={username} /></Td>
+            <Td><Input placeholder="年齢" size="md" ref={age} /></Td>
+            <Td><Input placeholder="メールアドレス" size="md" ref={email} /></Td>
+            <Td><Button onClick={postNewUser}><AddIcon /></Button></Td>
+          </Tr>
         </Tbody>
       </Table>
     </Center>
