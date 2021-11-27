@@ -1,18 +1,25 @@
 import { useRef, useState, useEffect } from "react"
 
-import { io } from "socket.io-client"
+import socketio from "socket.io-client"
 
 const useSocket = (url) => {
     const socket = useRef(null)
 
-    useEffect(() => {
-        const newSocket = io(url)
-        socket.current = newSocket
+    console.log("useSocket")
 
-        return socket.current.close()
+    useEffect(() => {
+        console.log("connecting...")
+        const newSocket = socketio(url)
+        socket.current = newSocket
     }, [])
 
-    return [socket]
+    const setOn = (event, callback) => {
+        if (socket.current) {
+            socket.current.on(event, callback)
+        }
+    }
+
+    return [socket, setOn]
 }
 
 export { useSocket }

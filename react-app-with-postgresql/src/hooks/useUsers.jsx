@@ -6,17 +6,26 @@ import { useSocket } from "./useSocket"
 
 const useUsers = () => {
     const [users, setUsers] = useState([])
-    const socket2 = useRef(null)
-    const [socket] = useSocket("http://localhost:3001")
+    const [socket, setOn] = useSocket("http://localhost:3001")
+
+    const getUsers = () => {
+        console.log("getUsers")
+        axios.get("http://localhost:3001/users")
+        .then(res => {setUsers(res.data)})
+    }
 
     useEffect(() => {
-        socket2.current = io("http://localhost:3001")
-        return socket2.current.close()
+        setOn("database-update", () => {
+            getUsers()
+        })
+
+        setOn("hello", () => {
+            console.log("hello world!")
+        })
     }, [])
 
     useEffect(() => {
-        axios.get("http://localhost:3001/users")
-        .then(res => {setUsers(res.data)})
+        getUsers()
     }, [])
 
     const addUser = (user) => {

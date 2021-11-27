@@ -58,6 +58,7 @@ app.post("/adduser", (req, res) => {
     client
         .query("INSERT INTO users(username, age, email) VALUES ($1, $2, $3)", [username, age, email])
         .then(response => {
+            io.emit("database-update")
             res.send("success")
         })
         .catch(e => {
@@ -73,6 +74,7 @@ app.post("/deluser", (req, res) => {
     client
         .query("DELETE FROM users WHERE user_id = $1", [user_id])
         .then(response => {
+            io.emit("database-update")
             res.send("success")
         })
         .catch(e => {
@@ -80,19 +82,13 @@ app.post("/deluser", (req, res) => {
         })
 })
 
-app.post("/adduser", (req, res) => {
-    const username = req.body.username
-    const age = req.body.age
-    const email = req.body.email
+app.get("/hello", (req, res) => {
+    io.emit("hello")
+})
 
-    client
-        .query("INSERT INTO users(username, age, email) VALUES ($1, $2, $3)", [username, age, email])
-        .then(response => {
-            res.send("success")
-        })
-        .catch(e => {
-            res.send("failed")
-        })
+// listening
+server.listen(3001, "localhost", () => {
+    console.log("listening on port 3001")
 })
 
 // socket routing
@@ -111,11 +107,6 @@ const setupSocket = (serverSocket) => {
 }
 
 setupSocket(io)
-
-// listening
-server.listen(3001, "localhost", () => {
-    console.log("listening on port 3001")
-})
 
 // export for testing
 module.exports = { app, setupSocket }
