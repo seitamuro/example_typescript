@@ -1,8 +1,18 @@
 import { useState, useEffect, useRef } from "react"
 import axios from "axios"
+import { io } from "socket.io-client"
+
+import { useSocket } from "./useSocket"
 
 const useUsers = () => {
     const [users, setUsers] = useState([])
+    const socket2 = useRef(null)
+    const [socket] = useSocket("http://localhost:3001")
+
+    useEffect(() => {
+        socket2.current = io("http://localhost:3001")
+        return socket2.current.close()
+    }, [])
 
     useEffect(() => {
         axios.get("http://localhost:3001/users")

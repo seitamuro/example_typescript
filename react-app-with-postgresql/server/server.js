@@ -1,5 +1,4 @@
 // Import
-const pg = require("pg")
 const express = require("express")
 const http = require("http")
 const cors = require("cors")
@@ -21,7 +20,11 @@ app.use(cors({
 const server = http.createServer(app)
 
 // setup socket
-const io = require("socket.io")(server)
+const io = require("socket.io")(server, {
+    cors: {
+        origin: "*"
+    }
+})
 
 // connect to PostgreSQL
 const { Client } = require("pg")
@@ -77,7 +80,7 @@ app.post("/deluser", (req, res) => {
         })
 })
 
-app.post("adduser", (req, res) => {
+app.post("/adduser", (req, res) => {
     const username = req.body.username
     const age = req.body.age
     const email = req.body.email
@@ -92,10 +95,27 @@ app.post("adduser", (req, res) => {
         })
 })
 
+// socket routing
+const setupSocket = (serverSocket) => {
+    serverSocket.on("connection", (socket) =>{
+        console.log("connection ...")
+    })
+
+    serverSocket.on("disconnect", (socket) => {
+        console.log("disconnect")
+    })
+
+    serverSocket.on("hello", (socket) => {
+        serverSocket.emit("world")
+    })
+}
+
+setupSocket(io)
+
 // listening
 server.listen(3001, "localhost", () => {
     console.log("listening on port 3001")
 })
 
 // export for testing
-module.exports = { app }
+module.exports = { app, setupSocket }
