@@ -1,14 +1,16 @@
 import {
-  Center
+  VStack
 } from "@chakra-ui/react"
 
 import Introduction from "./components/Introduction";
+import Animation from "./components/Animation"
 
 const App = () => {
   return (
-    <Center>
+    <VStack>
       <Introduction />
-    </Center>
+      <Animation />
+    </VStack>
   )
 }
 

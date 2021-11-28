@@ -93,3 +93,221 @@ export const  MotionValue = () => (
     />
 )
 ```
+
+# Animation
+
+アニメーションに関わるプロパティの詳細について述べる｡
+
+## animation
+
+単純にどのような形状､どの位置に表示するかなどを指定する｡
+
+```jsx
+export const Animation = () => (
+    <MotionBox
+        animation={{
+            x:100
+        }}
+    />
+)
+```
+
+このとき､パラメータの指定にはkeyframeを利用することもできる｡
+
+```jsx
+export const Animation = () => (
+    <MotionBox
+        animation={{
+            x: [0, 100, 0]
+        }}
+    />
+)
+```
+
+keyframeに`null`を利用するとデフォルトで指定された位置の値が代入される｡このとき､デフォルトの値は`{}`で囲み､数値であることを明示的に示す必要がある｡
+
+```jsx
+export const KeyFrames = () => (
+    <MotionSquareBox
+        x={500}
+        animate={{ x: [null, 100]}}
+    />
+)
+```
+
+keyframeの各キーを行う時間を指定することができる｡時間は各
+
+```jsx
+export const KeyFrames = () => (
+    <MotionSquareBox
+        x={500}
+        animate={{ x: [null, 100, 200]}}
+        transition={{ duration: 3, times: [0, 0.2, 1] }}
+    />
+)
+```
+
+## transition
+
+`animation`で指定した形状にどのように変化させるかを指定する｡
+
+```jsx
+export const Transition = () => (
+    <MotionSquareBox
+        animate={{ x: 100 }}
+        transition={{ ease: "easeOut", duration: 2 }}
+    />
+)
+```
+
+## Variantsの利用
+
+使用したいanimationをvariantsという機能を利用することで､省略して利用することができる｡
+
+```jsx
+const variants = {
+    visible: { opacity: 1 },
+    hidden: { opacity: 0 },
+}
+
+export const Animation = () => {
+    initial="hidden"
+    animate="visible"
+    variants={variants}
+}
+```
+
+## propagation
+
+`motion component`のプロパティは子要素にも引き継がれる｡これらは､子要素で再度プロパティが指定されなければ親のプロパティと同じ要素が引き継がれる｡
+このとき､variantsも引き継がれる｡
+
+```jsx
+const list = {
+    visible: { opacity: 1 },
+    hidden: { opacity: 0 },
+}
+
+const item = {
+    visible: { opacity: 1, x: 0 },
+    hidden: { opacity: 0, x: -100 },
+}
+
+export const Propagation = () => (
+    <MotionList
+        initial="hidden"
+        animate="visible"
+        variants={list}
+    >
+        <MotionListItem variants={item}>
+            1
+        </MotionListItem>
+        <MotionListItem variants={item}>
+            2
+        </MotionListItem>
+        <MotionListItem variants={item}>
+            3
+        </MotionListItem>
+    </MotionList>
+)
+```
+
+## Orchestration
+
+`motion components`のアニメーションの実行は非同期的に行われる｡
+しかし､`when`プロップに`delayChildren`や`staggerChildren`などを指定することで､アニメーションの実行タイミングを指定することができる｡
+
+```jsx
+const delayList = {
+    visible: {
+        opacity: 1,
+        transition: {
+            when: "beforeChildren",
+            staggerChildren: 0.3,
+        },
+    },
+    hidden: {
+        opacity: 0,
+        transition: {
+            when: "afterChildren"
+        }
+    }
+}
+```
+
+## Dynamic variants
+
+variantsの値は`custom`プロップを利用することで指定することができる｡
+
+```jsx
+const variants = {
+    visible: i => ({
+        opacity: 1,
+        transition: {
+            delay: i * 0.3,
+        },
+    }),
+    hidden: { opacity: 0 },
+}
+```
+
+## Component animation controls
+
+`useAnimation`を利用してアニメーションを定義することができる｡
+`useAnimation`が返す値は`start`関数と`stop`関数を持ち､
+この値は`motion components`の`animation`プロップにわたすことができる｡
+
+```jsx
+export const AnimationControl = () => {
+    const controls = useAnimation()
+
+    controls.start({
+        x: "100%",
+        backgroundColor: "#f00",
+        transition: { duration: 3 },
+    })
+
+    controls.stop({
+        x: "50%",
+        backgroundColor: "#0f0",
+        transition: { duration: 0 }
+    })
+
+    return (
+        <MotionSquareBox animate={controls} />
+    )
+}
+```
+
+`start`関数は`Promise`を返す｡これを操作することで､`motion components`に値を渡すよりも細かくアニメーションを制御することができる｡
+
+```jsx
+const sequence = async () => {
+    await menuControls.start({ x: 0})
+    return await itemControls.start({ opacity: 1 })
+}
+```
+
+コントロールは動的に値を決定することができる｡動的なvariantと同様に`custom`プロップを通じて値を渡すことができる｡
+
+```jsx
+const controls = useAnimation()
+
+listControls.start(i => ({
+    opacity: 0,
+    x: 100,
+    transition: { delay: i * 0.3},
+}))
+
+<MotionList>
+    <MotionListItem custom={0} animate={listControls}>
+        1
+    </MotionListItem>
+    <MotionListItem custom={1} animate={listControls}>
+        2
+    </MotionListItem>
+    <MotionListItem custom={2} animate={listControls}>
+        3
+    </MotionListItem>
+</MotionList>
+```
