@@ -311,3 +311,120 @@ listControls.start(i => ({
     </MotionListItem>
 </MotionList>
 ```
+
+# Transition
+
+`Transition`はある状態から別の状態にどのように変化するかを定義している｡
+
+## delay
+
+アニメーションの実行を発生させるタイミングを指定する｡
+
+## delayChildren
+
+子要素のアニメーションを始めるタイミングを指定する｡
+
+## staggerChildren
+
+子要素のアニメーションを指定した時間差で順に実行する｡
+
+## staggerDirection
+
+1か-1のどちらかの値で指定する｡通常､staggerChildrenを使用すると上から順に表示される｡しかし､`staggerDirection`で-1を指定すると､下から順に子要素が表示される｡
+
+## when
+
+false､beforeChildren､afterChildrenのいづれかの値を利用する｡
+falseはデフォルト､beforeChildrenは子要素のアニメーションが始まる前に親要素のアニメーションを終了､afterChildrenは子要素のアニメーションが親要素のアニメーションが始まる前に終了する｡
+
+## repeat
+
+アニメーションの再生を繰り返す回数を指定する｡`Infinity`を利用すると無限に再生する｡
+
+## repeatType
+
+以下のいずれかの値を取る｡
+
+- `loop`
+
+アニメーションを最初の状態に戻してから指定回数繰り返す｡
+
+- `reverse`
+
+アニメーションの再生と逆再生を繰り返す｡
+
+- `mirror`
+
+`from`と`to`を交互に繰り返す｡
+
+## repeatDelay
+
+繰り返しを開始するまでの時間を指定する｡
+
+## Tween
+
+指定されたアニメーションの動きをする｡`spring`は指定された位置を少しずれる(ばね的な)が､`tween`ではピッタリ指定された位置に移動する｡
+
+## ease
+
+指定されたキーフレームで変化を指定できる｡もしくは､文字列で事前に用意された変化を指定できる｡
+
+- `linear`
+- `easeIn`, `easeOut`, `easeInOut`
+- `circIn`, `circOut`, `circInOut`
+- `backIn`, `backOut`, `backInOut`
+- `anticipate`
+
+## from
+
+開始時点のanimateを指定できる｡
+
+## times
+
+各キーフレームにどのタイミングで到達するかを指定する｡
+
+## spring
+
+`type: "spring"`はアニメーションをばねのようにして実行するように指定する｡これは以下のパラメータで動作を調整することができる｡
+
+- bound (default=0.25)
+- damping (default=10)
+- mass (default=1)
+- stiffness (default=100)
+- velocity (default=現在の速度)
+- restSpeed (default=0.01)
+- restDelta (default=0.01)
+
+## Inertia
+
+慣性的な動きを与える｡`type: "inertia"`で指定可能｡`min`と`max`を使ってどこまで移動するかを指定する｡
+
+## modifyTarget
+
+指定された場所に移動するようにする｡`drag`と合わせて使われる｡
+
+```jsx
+<MotionSquareBox
+    drag
+    dragTransition={{
+        power: 0,
+        modifyTarget: target => Math.round(target / 50) * 50
+    }}
+/>
+```
+
+## bounceStiffness
+
+デフォルトは10｡この値が大きい程すばやく`min`または`max`で指定された場所に戻る｡
+
+## power
+
+ドラッグをリリースしたときにどれだけの勢いで移動するかを指定する｡
+
+## min
+
+コンポーネントが移動できる最小の位置｡
+
+## max
+
+コンポーネントが移動できる最大の位置｡
