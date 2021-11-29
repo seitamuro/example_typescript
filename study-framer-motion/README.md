@@ -438,3 +438,59 @@ Gestureは特定の状況でのみ一時的にアニメーションを行うた�
 # MotionValue
 
 `MotionValue`はコンポーネントのアニメーションの速度の値や状態を追跡する｡通常これらは自動的に作成されるが､
+
+## useMotionValue
+
+framer-motionが利用する変数を生成する｡styleにこれを代入することで指定した値が利用される｡変数名がそのままパラメータ名として利用される｡
+
+```jsx
+const x = useMotionValue(0)
+return <motion.div style={{ 0 }}>
+```
+
+## useTransform
+
+渡されたMotionValueの値を指定された相対に収まるように操作する｡オプションを与えることができる｡オプションには`clamp: boolean`または`ease: EasingFunction[]`を指定できる｡
+
+```jsx
+const MotionValueExample2 = () => {
+    const x = useMotionValue(0)
+    const xInput = [-100, 0, 100]
+    const opacityOutput = [0.5, 1, 0.5]
+    const colorOutput = ["#f00", "#000", "#0f0"]
+
+    const opacity = useTransform(x, xInput, opacityOutput)
+    const backgroundColor = useTransform(x, xInput, colorOutput)
+
+    return (
+        <MotionSquareBox
+            drag="x"
+            style={{ x, opacity, backgroundColor }}
+            dragTransition={{
+                min: -100,
+                max: 100,
+            }}
+        />
+    )
+}
+```
+
+`useTransform`は与えられた`MotionValue`を指定された範囲に収めること以外に指定された関数で補正することができる｡
+
+## useSpring
+
+渡された`MotionValue`をばねの関数を利用して補正する｡
+
+```jsx
+const MotionValueExample4 = () => {
+    const x = useSpring(0, { stiffness: 300 })
+    const y = useSpring(x, { damping: 10 })
+
+    return (
+        <MotionSquareBox
+            drag="x"
+            style={{ x, y }}
+        />
+    )
+}
+```
