@@ -428,3 +428,13 @@ falseはデフォルト､beforeChildrenは子要素のアニメーションが�
 ## max
 
 コンポーネントが移動できる最大の位置｡
+
+# Gesture
+
+Gestureは特定の状況でのみ一時的にアニメーションを行うための機能である｡特定の状況とは`whileHover`や`whileTap`､`whileDrag`､`whileInView`などである｡
+
+この他に`onHoverStart`や`onHoverEnd`､`onTap`などがあり､これらはstateの更新などに利用する｡
+
+# MotionValue
+
+`MotionValue`はコンポーネントのアニメーションの速度の値や状態を追跡する｡通常これらは自動的に作成されるが､
