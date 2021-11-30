@@ -556,3 +556,24 @@ const MotionValueExample6 = () => {
     )
 }
 ```
+
+# Utilities
+
+そのほかに有用なフックなどについて解説する｡
+
+## useCycle
+
+`MotionValue`の値を指定されたタイミングで事前に渡された値でローテーションする｡
+
+```jsx
+const UseCycleExample = () => {
+    const [x, cycleX] = useCycle(0, 50, 100)
+
+    return (
+        <MotionSquareBox
+            animate={{ x: x }}
+            onTap={() => cycleX()}
+        />
+    )
+}
+```

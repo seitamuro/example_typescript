@@ -7,6 +7,7 @@ import Animation from "./components/Animation"
 import { Transition } from "./components/Transition";
 import { Gesture } from "./components/Gesture";
 import { MotionValue } from "./components/MotionValue";
+import { Utilities } from "./components/Utilities";
 
 const App = () => {
   return (
@@ -15,7 +16,8 @@ const App = () => {
       {/* <Animation /> */}
       {/* <Transition /> */}
       {/* <Gesture /> */}
-      <MotionValue />
+      {/* <MotionValue /> */}
+      <Utilities />
     </VStack>
   )
 }
