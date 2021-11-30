@@ -1,3 +1,5 @@
+import { useEffect } from "react"
+
 import {
     Box,
     Center,
@@ -9,6 +11,8 @@ import {
     useMotionValue,
     useTransform,
     useSpring,
+    useVelocity,
+    transform,
 } from "framer-motion"
 
 const MotionBox = motion(Box)
@@ -84,6 +88,56 @@ const MotionValueExample4 = () => {
     )
 }
 
+const MotionValueExample5 = () => {
+    const x = useMotionValue(0)
+    const inputColor = useVelocity(x)
+    const backgroundColor = useTransform(inputColor, [-100, 0, 100], ["#f00", "#000", "#00f"])
+
+    return (
+        <MotionSquareBox
+            drag="x"
+            dragTransition={{
+                max: 100,
+                min: -100
+            }}
+            style={{ x, backgroundColor }}
+        />
+    )
+}
+
+const MotionValueExample6 = () => {
+    const x = useMotionValue(0)
+    const y = useMotionValue(0)
+    const opacity = useMotionValue(1)
+
+    useEffect(() => {
+        function updateOpacity() {
+            const maxXY = Math.max(x.get(), y.get())
+            const newOpacity = transform(maxXY, [0, 100], [1, 0.3])
+            opacity.set(newOpacity)
+        }
+
+        const unsubscribeX = x.onChange(updateOpacity)
+        const unsubscribeY = y.onChange(updateOpacity)
+
+        return () => {
+            unsubscribeX()
+            unsubscribeY()
+        }
+    }, [])
+
+    return (
+        <MotionSquareBox
+            drag
+            dragTransition={{
+                min: 0,
+                max: 100,
+            }}
+            style={{ x, y, opacity }}
+        />
+    )
+}
+
 export const MotionValue = () => {
     return (
         <Center>
@@ -92,6 +146,8 @@ export const MotionValue = () => {
                 <MotionValueExample2 />
                 <MotionValueExample3 />
                 <MotionValueExample4 />
+                <MotionValueExample5 />
+                <MotionValueExample6 />
             </VStack>
         </Center>
     )

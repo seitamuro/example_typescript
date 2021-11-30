@@ -494,3 +494,65 @@ const MotionValueExample4 = () => {
     )
 }
 ```
+
+## useVelocity
+
+与えられた`MotionValue`の速度を`MotionValue`として返す｡
+
+```jsx
+const MotionValueExample5 = () => {
+    const x = useMotionValue(0)
+    const inputColor = useVelocity(x)
+    const backgroundColor = useTransform(inputColor, [-100, 0, 100], ["#f00", "#000", "#00f"])
+
+    return (
+        <MotionSquareBox
+            drag="x"
+            dragTransition={{
+                max: 100,
+                min: -100
+            }}
+            style={{ x, backgroundColor }}
+        />
+    )
+}
+```
+
+## より応用的なMotionValue
+
+MotionValueの値は`get`関数や`set`関数などを利用して値を設定できる他に､`onChange`関数などを利用することでオリジナルのアニメーションの定義をすることができる｡
+
+```jsx
+const MotionValueExample6 = () => {
+    const x = useMotionValue(0)
+    const y = useMotionValue(0)
+    const opacity = useMotionValue(1)
+
+    useEffect(() => {
+        function updateOpacity() {
+            const maxXY = Math.max(x.get(), y.get())
+            const newOpacity = transform(maxXY, [0, 100], [1, 0.3])
+            opacity.set(newOpacity)
+        }
+
+        const unsubscribeX = x.onChange(updateOpacity)
+        const unsubscribeY = y.onChange(updateOpacity)
+
+        return () => {
+            unsubscribeX()
+            unsubscribeY()
+        }
+    }, [])
+
+    return (
+        <MotionSquareBox
+            drag
+            dragTransition={{
+                min: 0,
+                max: 100,
+            }}
+            style={{ x, y, opacity }}
+        />
+    )
+}
+```
